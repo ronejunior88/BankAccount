@@ -10,9 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 
-namespace BankAccount
+namespace Api
 {
     public class Startup
     {
@@ -26,12 +25,22 @@ namespace BankAccount
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddCors(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BankAccount", Version = "v1" });
+                options.AddPolicy("AllowAllHeaders",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
             });
+
+            services.AddSwaggerGenNewtonsoftSupport();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +49,6 @@ namespace BankAccount
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BankAccount v1"));
             }
 
             app.UseHttpsRedirection();

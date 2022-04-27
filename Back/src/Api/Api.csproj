@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\v1\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azul.Framework.Core.Api" Version="1.0.28" />
+    <PackageReference Include="Azul.Framework.Core.Context" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data.Command\Infrastructure.Data.Command.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data.Query\Infrastructure.Data.Query.csproj" />
+  </ItemGroup>
+
+
+</Project>
