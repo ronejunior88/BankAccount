@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROC [dbo].[Client_SelectById]
+CREATE PROC [dbo].[Client_SelectById]
 @Id INT
 AS
 

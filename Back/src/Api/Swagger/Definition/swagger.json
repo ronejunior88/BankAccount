@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CustomerRelationShip.LoadFactor.API",
+    "description": "CustomerRelationShip.LoadFactor.API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://"
+    }
+  ],
+
+}

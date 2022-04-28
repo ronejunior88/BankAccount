@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.31229.387
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{C31323CC-C383-4307-93AC-4FE02B7DB8B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{B972E221-2DBC-47AD-846C-A15C0558DC9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{B972E221-2DBC-47AD-846C-A15C0558DC9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Domain", "2 - Domain", "{72D49794-7A32-4CB9-B387-6225F4E1E20C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infrastructure", "3 - Infrastructure", "{F5BF2B6F-D026-4585-84A6-EA8DD11D330A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D49E6F54-65FB-418F-956A-846667E0E90B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{D49E6F54-65FB-418F-956A-846667E0E90B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Data.Command", "Infrastructure.Data.Command\Infrastructure.Data.Command.csproj", "{57E820AC-4ABE-4DE6-B660-0244907C875F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data.Command", "Infrastructure.Data.Command\Infrastructure.Data.Command.csproj", "{57E820AC-4ABE-4DE6-B660-0244907C875F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Data.Query", "Infrastructure.Data.Query\Infrastructure.Data.Query.csproj", "{C5F08874-26FD-4B2A-9494-3CD942E5263A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data.Query", "Infrastructure.Data.Query\Infrastructure.Data.Query.csproj", "{C5F08874-26FD-4B2A-9494-3CD942E5263A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

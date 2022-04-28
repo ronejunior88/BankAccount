@@ -5,13 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\v1\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Azul.Framework.Core.Api" Version="1.0.28" />
-    <PackageReference Include="Azul.Framework.Core.Context" Version="1.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1" />
+	  <PackageReference Include="Azul.Framework.Core.Api" Version="1.0.22" />
+	  <PackageReference Include="Azul.Framework.Core.Cache.Redis" Version="1.0.8" />
+	  <PackageReference Include="Azul.Framework.Core.Context" Version="1.0.0" />
+	  <PackageReference Include="Azul.Framework.Core.IoC" Version="1.0.3" />
+	  <PackageReference Include="Azul.Framework.Core.Resource.File" Version="1.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.3.1" />
   </ItemGroup>
 
   <ItemGroup>

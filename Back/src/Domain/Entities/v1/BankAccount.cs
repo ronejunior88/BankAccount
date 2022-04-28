@@ -1,5 +1,3 @@
-using BasicAccountOperations.Domain.Enums;
-
 namespace BasicAccountOperations.Domain.Model
 {
     public class BankAccount
