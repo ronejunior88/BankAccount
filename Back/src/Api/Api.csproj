@@ -5,12 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Azul.Framework.Core.Api" Version="1.0.22" />
-	  <PackageReference Include="Azul.Framework.Core.Cache.Redis" Version="1.0.8" />
-	  <PackageReference Include="Azul.Framework.Core.Context" Version="1.0.0" />
-	  <PackageReference Include="Azul.Framework.Core.IoC" Version="1.0.3" />
-	  <PackageReference Include="Azul.Framework.Core.Resource.File" Version="1.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
@@ -22,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Command\Infrastructure.Data.Command.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data.Context\Infrastructure.Data.Context.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Query\Infrastructure.Data.Query.csproj" />
   </ItemGroup>
 

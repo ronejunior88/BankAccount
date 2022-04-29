@@ -1,5 +1,3 @@
-using Azul.Framework.Api;
-using Azul.Framework.Api.Logging;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -7,24 +5,18 @@ using System;
 
 namespace Api
 {
-    public class Program : BaseProgram
+    public class Program
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                BuildWebHost(args).Run();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Host terminated unexpectedly. " + ex);
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseCustomLog()
-                .Build();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
