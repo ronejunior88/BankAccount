@@ -28,10 +28,17 @@ namespace Api.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]BankAccount value)
+        public async Task<IActionResult> PostBankAccount([FromBody]BankAccount value)
         {
             var response = await _IBankAccountCommanderInterface.InsertBankAccount(_bootstrapper, _configuration, value);
             return Ok(response);
+        }
+
+        [HttpGet("/idBank")]
+        public async Task<IActionResult> GetBankAccountById(int value)
+        {
+            var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, value);
+            return Ok(response.Value);
         }
     }
 }

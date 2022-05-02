@@ -1,6 +1,8 @@
 ﻿using Domain.Entities.v1;
+using Domain.Dto.v1;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Context.Interfaces.v1;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -29,5 +31,29 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
                 return bankAccount;
             }
         }
+
+        public async Task<JsonResult> GetBankAccount_SelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount)
+        {
+            BankAccountDto bkDto;
+
+            using (SqlCommand _command = bootstrapper.CreateCommand())
+            {
+                _command.CommandText = "EXEC [dbo].[BankAccount_SelectById] @Id";
+                _command.Parameters.Add("@Id", SqlDbType.Int).Value = bankAccount;
+
+                using (SqlDataReader reader = _command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        bkDto = new BankAccountDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDecimal(3), reader.GetString(4)) ;
+                        return new JsonResult(bkDto);
+                    }
+                }
+
+                return null;
+            }
+        }
+
     }
 }

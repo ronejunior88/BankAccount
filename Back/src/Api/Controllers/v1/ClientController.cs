@@ -23,14 +23,14 @@ namespace Api.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Person value)
+        public async Task<IActionResult> PostClient([FromBody]Person value)
         {
             var response = await _clientCommand.InsertPerson(_bootstrapper, _configuration, value);
             return Ok(response);
         }
 
-        [HttpGet("/id")]
-        public async Task<IActionResult> Get(int value)
+        [HttpGet("/idClient")]
+        public async Task<IActionResult> GetClientById(int value)
         {
             var response = await _clientCommand.GetClientById(_bootstrapper, _configuration, value);
             return Ok(response.Value);
