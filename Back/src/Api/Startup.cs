@@ -1,6 +1,6 @@
-using Infrastructure.Data.Context.Context.Command.v1;
-using Infrastructure.Data.Context.Context.Interfaces;
-using Infrastructure.Data.Context.Context.v1;
+using Infrastructure.Data.Command.Context.Command.v1;
+using Infrastructure.Data.Command.Infrastructure.Ioc;
+using Infrastructure.Data.Command.Interfaces.v1;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,20 +13,21 @@ namespace Api
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration _cofiguration { get; }
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _cofiguration = configuration;
         }
         
         public void ConfigureServices(IServiceCollection services)
         {
             Func<IServiceProvider, SqlConnection> Connect =
-                 a => new SqlConnection(Configuration.GetConnectionString("BankAccount"));
+                 a => new SqlConnection(_cofiguration.GetConnectionString("BankAccount"));
 
             services.AddScoped(Connect);
             services.AddScoped<IClientCommandInterface, ClientCommand>();
+            services.AddScoped<IBootstrapper, Bootstrapper>();
             services.AddControllers();
 
             services.AddCors(options =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -8,23 +9,14 @@ namespace Infrastructure.Data.Context.Context.v1
     public class DbContext
     {
         public SqlConnection sqlcnn { get; private set; }
-
         public DbContext(){ }
-        public DbContext(SqlConnection connection)
-        {
-            sqlcnn = connection;
-        }
-
-        public DbContext(string connectionString)
-        {
-            sqlcnn = new SqlConnection(connectionString);
-        }
-
-        public SqlConnection dbConnectionOpen()
+      public SqlConnection dbConnectionOpen(string connectionString)
         {
             try
             {
+
                 sqlcnn = new SqlConnection();
+                sqlcnn.ConnectionString = connectionString;
 
                 if (sqlcnn == null)
                     throw new Exception("No instance class");
@@ -56,12 +48,6 @@ namespace Infrastructure.Data.Context.Context.v1
             {
                 throw new Exception("Connection Close Error: ", ex); ;
             }
-        }
-
-        public SqlCommand CreateCommand()
-        {
-            return dbConnectionOpen()
-                .CreateCommand();
         }
     }   
 }
