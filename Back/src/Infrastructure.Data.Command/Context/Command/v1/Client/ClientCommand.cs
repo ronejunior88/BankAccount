@@ -1,6 +1,6 @@
-﻿using BasicAccountOperations.Domain.Model;
-using Domain.Dto.v1;
-using Infrastructure.Data.Command.Interfaces.v1;
+﻿using Domain.Dto.v1;
+using Domain.Entities.v1;
+using Infrastructure.Data.Command.Interfaces.v1.Client;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Command.Context.Command.v1
+namespace Infrastructure.Data.Command.Context.Command.v1.Client
 {
     public class ClientCommand : IClientCommandInterface
     {

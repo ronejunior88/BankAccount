@@ -1,5 +1,7 @@
-using Infrastructure.Data.Command.Context.Command.v1;
-using Infrastructure.Data.Command.Interfaces.v1;
+using Infrastructure.Data.Command.Context.Command.v1.Bank;
+using Infrastructure.Data.Command.Context.Command.v1.Client;
+using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
+using Infrastructure.Data.Command.Interfaces.v1.Client;
 using Infrastructure.Data.Context.Infrastructure.Ioc;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +30,7 @@ namespace Api
 
             services.AddScoped(Connect);
             services.AddScoped<IClientCommandInterface, ClientCommand>();
+            services.AddScoped<IBankAccountCommanderInterface, BankAccountCommand>();
             services.AddScoped<IBootstrapper, Bootstrapper>();
             services.AddControllers();
 

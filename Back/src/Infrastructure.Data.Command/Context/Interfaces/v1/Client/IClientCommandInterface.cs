@@ -1,10 +1,10 @@
-﻿using BasicAccountOperations.Domain.Model;
-using Infrastructure.Data.Context.Interfaces.v1;
+﻿using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Entities.v1;
 
-namespace Infrastructure.Data.Command.Interfaces.v1
+namespace Infrastructure.Data.Command.Interfaces.v1.Client
 {
     public interface IClientCommandInterface
     {

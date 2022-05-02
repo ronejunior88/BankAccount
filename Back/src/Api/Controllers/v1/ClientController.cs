@@ -1,5 +1,5 @@
-﻿using BasicAccountOperations.Domain.Model;
-using Infrastructure.Data.Command.Interfaces.v1;
+﻿using Domain.Entities.v1;
+using Infrastructure.Data.Command.Interfaces.v1.Client;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

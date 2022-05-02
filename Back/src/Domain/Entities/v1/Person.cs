@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace BasicAccountOperations.Domain.Model
+namespace Domain.Entities.v1
 {
     public class Person
     {
