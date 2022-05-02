@@ -20,7 +20,6 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Command\Infrastructure.Data.Command.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Context\Infrastructure.Data.Context.csproj" />
-    <ProjectReference Include="..\Infrastructure.Data.Query\Infrastructure.Data.Query.csproj" />
   </ItemGroup>
 
 

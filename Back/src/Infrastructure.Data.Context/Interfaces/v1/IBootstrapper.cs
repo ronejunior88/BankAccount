@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 
-namespace Infrastructure.Data.Command.Interfaces.v1
+namespace Infrastructure.Data.Context.Interfaces.v1
 {
     public interface IBootstrapper
     {

@@ -1,6 +1,7 @@
 using Infrastructure.Data.Command.Context.Command.v1;
-using Infrastructure.Data.Command.Infrastructure.Ioc;
 using Infrastructure.Data.Command.Interfaces.v1;
+using Infrastructure.Data.Context.Infrastructure.Ioc;
+using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

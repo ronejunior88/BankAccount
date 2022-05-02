@@ -1,9 +1,9 @@
-﻿using Infrastructure.Data.Command.Interfaces.v1;
-using Infrastructure.Data.Context.Context.v1;
+﻿using Infrastructure.Data.Context.Context.v1;
+using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 
-namespace Infrastructure.Data.Command.Infrastructure.Ioc
+namespace Infrastructure.Data.Context.Infrastructure.Ioc
 {
     public class Bootstrapper : IBootstrapper
     {

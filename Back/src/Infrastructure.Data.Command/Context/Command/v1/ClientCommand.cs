@@ -1,5 +1,8 @@
 ﻿using BasicAccountOperations.Domain.Model;
+using Domain.Dto.v1;
 using Infrastructure.Data.Command.Interfaces.v1;
+using Infrastructure.Data.Context.Interfaces.v1;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,7 +17,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1
         {       
                 using (SqlCommand _command = bootstrapper.CreateCommand())
                 {
-                    var sql = _command.CommandText = "EXEC [dbo].[Insert_Person] @name, @LastName, @Cpf, @CNPJ, @telephone, @adress";
+                    _command.CommandText = "EXEC [dbo].[Insert_Person] @name, @LastName, @Cpf, @CNPJ, @telephone, @adress";
                     _command.Parameters.Add("@name", SqlDbType.VarChar).Value = person.Name;
                     _command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = person.LastName;
                     _command.Parameters.Add("@Cpf", SqlDbType.VarChar).Value = person.Cpf;
@@ -28,6 +31,29 @@ namespace Infrastructure.Data.Command.Context.Command.v1
                     }
                     return person;
                 }
-        }        
+        }
+
+        public async Task<JsonResult> GetClientById(IBootstrapper bootstrapper, IConfiguration configuration, int client)
+        {
+            ClientPersonDto cpDto;
+            
+            using (SqlCommand _command = bootstrapper.CreateCommand()) 
+            {
+                _command.CommandText = "EXEC [dbo].[Client_SelectById] @Id";
+                _command.Parameters.Add("@Id", SqlDbType.Int).Value = client;
+
+                using (SqlDataReader reader = _command.ExecuteReader()) 
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        cpDto = new ClientPersonDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7));
+                        return new JsonResult(cpDto);
+                    }
+                }
+                
+                return null;
+            }        
+        }
     }
 }

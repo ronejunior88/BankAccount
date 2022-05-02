@@ -1,5 +1,6 @@
 ﻿using BasicAccountOperations.Domain.Model;
 using Infrastructure.Data.Command.Interfaces.v1;
+using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
@@ -26,6 +27,13 @@ namespace Api.Controllers.v1
         {
             var response = await _clientCommand.InsertPerson(_bootstrapper, _configuration, value);
             return Ok(response);
+        }
+
+        [HttpGet("/id")]
+        public async Task<IActionResult> Get(int value)
+        {
+            var response = await _clientCommand.GetClientById(_bootstrapper, _configuration, value);
+            return Ok(response.Value);
         }
     }
 }
