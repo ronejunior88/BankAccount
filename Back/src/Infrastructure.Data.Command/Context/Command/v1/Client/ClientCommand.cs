@@ -12,37 +12,39 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
 {
     public class ClientCommand : IClientCommandInterface
     {
-         
-        public async Task<Person> InsertPerson(IBootstrapper bootstrapper,IConfiguration configuration,Person person)
-        {       
-                using (SqlCommand _command = bootstrapper.CreateCommand())
+
+        public async Task<Person> InsertPerson(IBootstrapper bootstrapper, IConfiguration configuration, Person person)
+        {
+            using (SqlCommand _command = bootstrapper.CreateCommand())
+            {
+                _command.CommandText = "EXEC [dbo].[Insert_Person] @name, @LastName, @Cpf, @CNPJ, @telephone, @adress";
+                _command.Parameters.Add("@name", SqlDbType.VarChar).Value = person.Name;
+                _command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = person.LastName;
+                _command.Parameters.Add("@Cpf", SqlDbType.VarChar).Value = person.Cpf;
+                _command.Parameters.Add("@CNPJ", SqlDbType.VarChar).Value = person.Cnpj;
+                _command.Parameters.Add("@telephone", SqlDbType.VarChar).Value = person.Telephone;
+                _command.Parameters.Add("@adress", SqlDbType.VarChar).Value = person.Adress;
+                int Id;
+                if (int.TryParse(_command.ExecuteScalar().ToString(), out Id))
                 {
-                    _command.CommandText = "EXEC [dbo].[Insert_Person] @name, @LastName, @Cpf, @CNPJ, @telephone, @adress";
-                    _command.Parameters.Add("@name", SqlDbType.VarChar).Value = person.Name;
-                    _command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = person.LastName;
-                    _command.Parameters.Add("@Cpf", SqlDbType.VarChar).Value = person.Cpf;
-                    _command.Parameters.Add("@CNPJ", SqlDbType.VarChar).Value = person.Cnpj;
-                    _command.Parameters.Add("@telephone", SqlDbType.VarChar).Value = person.Telephone;
-                    _command.Parameters.Add("@adress", SqlDbType.VarChar).Value = person.Adress;
-                    int Id;
-                    if (int.TryParse(_command.ExecuteScalar().ToString(), out Id))
-                    {
-                        person.Id = Id;
-                    }
-                    return person;
+                    person.Id = Id;
                 }
+                _command.Connection.Close();
+                return person;
+
+            }
         }
 
         public async Task<JsonResult> GetClientById(IBootstrapper bootstrapper, IConfiguration configuration, int client)
         {
             ClientPersonDto cpDto;
-            
-            using (SqlCommand _command = bootstrapper.CreateCommand()) 
+
+            using (SqlCommand _command = bootstrapper.CreateCommand())
             {
                 _command.CommandText = "EXEC [dbo].[Client_SelectById] @Id";
                 _command.Parameters.Add("@Id", SqlDbType.Int).Value = client;
 
-                using (SqlDataReader reader = _command.ExecuteReader()) 
+                using (SqlDataReader reader = _command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -51,9 +53,9 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
                         return new JsonResult(cpDto);
                     }
                 }
-                
+                _command.Connection.Close();
                 return null;
-            }        
+            }
         }
     }
 }

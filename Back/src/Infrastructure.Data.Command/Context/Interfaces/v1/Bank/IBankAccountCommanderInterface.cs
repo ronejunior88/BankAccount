@@ -10,5 +10,6 @@ namespace Infrastructure.Data.Command.Context.Interfaces.v1.Bank
     {
         Task<BankAccount> InsertBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, BankAccount bankAccount);
         Task<JsonResult> GetBankAccount_SelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount);
+        Task<bool> UpdateBankAccount_BalanceByTransfer(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount, decimal balance);
     }
 }
