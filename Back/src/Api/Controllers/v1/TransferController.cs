@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Transfer;
+﻿using Domain.Dto.v1;
+using Domain.Entities.v1;
+using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
+using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Context.Interfaces.v1;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace Api.Controllers.v1
 {
@@ -15,14 +14,18 @@ namespace Api.Controllers.v1
     public class TransferController : Controller
     {
         private readonly ITransferBankAccountInterface _ITransferBankAccount;
+        private readonly IBankAccountCommanderInterface _IBankAccountCommanderInterface;
         private readonly IConfiguration _configuration;
         private readonly IBootstrapper _bootstrapper;
 
-        public TransferController(IConfiguration configuration, IBootstrapper bootstrapper, ITransferBankAccountInterface ITransferBankAccount)
+        public TransferController(IConfiguration configuration, IBootstrapper bootstrapper, 
+                                  ITransferBankAccountInterface ITransferBankAccount, 
+                                  IBankAccountCommanderInterface IBankAccountCommanderInterface)
         {
             _configuration = configuration;
             _bootstrapper = bootstrapper;
             _ITransferBankAccount = ITransferBankAccount;
+            _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
         }
 
         [HttpGet("/idTransfer")]
@@ -44,6 +47,32 @@ namespace Api.Controllers.v1
         {
             var response = await _ITransferBankAccount.GetTransferAll(_bootstrapper, _configuration);
             return Ok(response.Value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
+        {
+            var bankAccount = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, transfer.IdBankAccount);
+
+            if (bankAccount != null && bankAccount.Id > 0) 
+            {
+                 var response = await _ITransferBankAccount.InsertTransferBankAccount(_bootstrapper, _configuration, transfer, bankAccount);
+
+                if(response != null)
+                {
+                    return Ok(new JsonResult(response));
+                }
+                else 
+                {
+                    return BadRequest("Tipo de movimentação Invalido, informe: Saque, Deposito, Transferencia");
+                }
+                        
+            }
+            else
+            {
+                return NotFound("Account Bank not found");
+            }
+            
         }
     }
 }

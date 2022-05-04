@@ -33,7 +33,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
             }
         }
 
-        public async Task<JsonResult> GetBankAccount_SelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount)
+        public async Task<BankAccountDto> GetBankAccount_SelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount)
         {
             BankAccountDto bkDto;
 
@@ -48,7 +48,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
                     {
                         reader.Read();
                         bkDto = new BankAccountDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDecimal(3), reader.GetString(4));
-                        return new JsonResult(bkDto);
+                        return bkDto;
                     }
                 }
                 _command.Connection.Close();
@@ -64,7 +64,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
             {
                 _command.CommandText = "[dbo].[BankAccount_UpdateBalanceByTransfer] @Id, @Balance";
                 _command.Parameters.Add("@Id", SqlDbType.Int).Value = bankAccount;
-                _command.Parameters.Add("@Balance", SqlDbType.Int).Value = bankAccount;
+                _command.Parameters.Add("@Balance", SqlDbType.Int).Value = balance;
                 retorno = _command.ExecuteNonQuery() > 0;
                 _command.Connection.Close();
             }

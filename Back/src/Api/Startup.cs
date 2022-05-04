@@ -1,8 +1,11 @@
+using AutoMapper;
+using Domain.Dto.v1;
+using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Command.v1.Bank;
 using Infrastructure.Data.Command.Context.Command.v1.Client;
-using Infrastructure.Data.Command.Context.Command.v1.Transfer;
+using Infrastructure.Data.Command.Context.Command.v1.TransferBank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Transfer;
+using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Command.Interfaces.v1.Client;
 using Infrastructure.Data.Context.Infrastructure.Ioc;
 using Infrastructure.Data.Context.Interfaces.v1;
@@ -29,6 +32,15 @@ namespace Api
         {
             Func<IServiceProvider, SqlConnection> Connect =
                  a => new SqlConnection(_cofiguration.GetConnectionString("BankAccount"));
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Transfer, TransferDto>();
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+
+
 
             services.AddScoped(Connect);
             services.AddScoped<IClientCommandInterface, ClientCommand>();

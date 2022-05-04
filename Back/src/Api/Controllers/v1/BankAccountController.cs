@@ -38,7 +38,7 @@ namespace Api.Controllers.v1
         public async Task<IActionResult> GetBankAccountById(int value)
         {
             var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, value);
-            return Ok(response.Value);
+            return Ok(new JsonResult(response));
         }
     }
 }
