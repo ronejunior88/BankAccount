@@ -11,6 +11,14 @@ namespace Domain.Entities.v1
             ValueTransfer = valueTransfer;
             TypeTransFer = typeTransfer;    
         }
+
+        public Transfer(int id, int idBankAccount, decimal valueTransfer, string typeTransfer)
+        {
+            Id = id;
+            IdBankAccount = idBankAccount;
+            ValueTransfer = valueTransfer;
+            TypeTransFer = typeTransfer;
+        }
         public int Id { get; set; }
         public int IdBankAccount { get; set; }
         public decimal ValueTransfer { get; set; }

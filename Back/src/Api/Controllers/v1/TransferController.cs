@@ -5,6 +5,7 @@ using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
 namespace Api.Controllers.v1
@@ -31,22 +32,30 @@ namespace Api.Controllers.v1
         [HttpGet("/idTransfer")]
         public async Task<IActionResult> GetTransferById(int value)
         {
-            var response = await _ITransferBankAccount.GetTransferById(_bootstrapper, _configuration, value);
-            return Ok(response.Value);
+            try
+            {
+                var response = await _ITransferBankAccount.GetTransferById(_bootstrapper, _configuration, value);
+                  return Ok(response.Value);               
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado: ", ex);
+            }
+            
         }
 
         [HttpGet("/idClientTransfer")]
         public async Task<IActionResult> GetTransferByClientId(int value)
         {
             var response = await _ITransferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, value);
-            return Ok(response.Value);
+            return Ok(new JsonResult(response));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetTransferAll()
         {
             var response = await _ITransferBankAccount.GetTransferAll(_bootstrapper, _configuration);
-            return Ok(response.Value);
+            return Ok(new JsonResult(response));
         }
 
         [HttpPost]
@@ -64,7 +73,7 @@ namespace Api.Controllers.v1
                 }
                 else 
                 {
-                    return BadRequest("Tipo de movimentação Invalido, informe: Saque, Deposito, Transferencia");
+                    return BadRequest("Tipo de movimentação Invalido, informe: Saque, Deposito, Transferencia ou Saldo Indisponivel!");
                 }
                         
             }

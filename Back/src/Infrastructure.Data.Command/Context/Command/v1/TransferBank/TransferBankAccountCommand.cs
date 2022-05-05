@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 
         public async Task<JsonResult> GetTransferById(IBootstrapper bootstrapper, IConfiguration configuration, int idTransfer)
         {
-            TransferBankAccountIdDto TbADto;
+            Transfer TbADto;
 
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
@@ -35,10 +35,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 
                 using (SqlDataReader reader = _command.ExecuteReader())
                 {
-                    if(reader.HasRows)
+                    if (reader.HasRows)
                     {
                         reader.Read();
-                        TbADto = new TransferBankAccountIdDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetString(4));
+                        TbADto = new Transfer(reader.GetInt32(0), reader.GetInt32(1), reader.GetDecimal(2), reader.GetString(3));
                         return new JsonResult(TbADto);
                     }
                 }
@@ -47,9 +47,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
             }
         }
 
-        public async Task<JsonResult> GetTransferByClientId(IBootstrapper bootstrapper, IConfiguration configuration, int idClient)
+        public async Task<List<TransferBankAccountIdClientDto>> GetTransferByClientId(IBootstrapper bootstrapper, IConfiguration configuration, int idClient)
         {
-            TransferBankAccountIdClientDto TbADto;
+
+            List<TransferBankAccountIdClientDto> TBaCdto = new List<TransferBankAccountIdClientDto>();
 
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
@@ -60,19 +61,22 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 {
                     if (reader.HasRows)
                     {
-                        reader.Read();
-                        TbADto = new TransferBankAccountIdClientDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDecimal(4), reader.GetString(5), reader.GetString(6),reader.GetString(7),reader.GetString(8));
-                        return new JsonResult(TbADto);
+                        while (reader.Read())
+                        {
+                            TBaCdto.Add(new TransferBankAccountIdClientDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetDecimal(7)));
+
+                        }
+                        return TBaCdto;
                     }
                 }
                 _command.Connection.Close();
-                return null;
             }
+            return TBaCdto;
         }
 
-        public async Task<JsonResult> GetTransferAll(IBootstrapper bootstrapper, IConfiguration configuration)
+        public async Task<List<TransferBankAccountAllDto>> GetTransferAll(IBootstrapper bootstrapper, IConfiguration configuration)
         {
-            TransferBankAccountAllDto TbADto;
+            List<TransferBankAccountAllDto> TbADto = new List<TransferBankAccountAllDto>();
 
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
@@ -82,9 +86,11 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 {
                     if (reader.HasRows)
                     {
-                        reader.Read();
-                        TbADto = new TransferBankAccountAllDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDecimal(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8));
-                        return new JsonResult(TbADto);
+                        while (reader.Read())
+                        {
+                            TbADto.Add(new TransferBankAccountAllDto(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetDecimal(7)));
+                        }
+                        return (TbADto);
                     }
                 }
                 _command.Connection.Close();
@@ -101,16 +107,17 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
             if (transfer.TypeTransFer == "Deposito")
             {
                 deposit = bankAccount.Balance + transfer.ValueTransfer;
-            }else if (transfer.TypeTransFer == "Transferencia" || transfer.TypeTransFer == "Saque")
+            }
+            else if (transfer.TypeTransFer == "Transferencia" || transfer.TypeTransFer == "Saque")
             {
-                if(bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0)
+                if (bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0)
                 {
                     deposit = bankAccount.Balance - transfer.ValueTransfer;
                 }
                 else
                 {
                     return null;
-                }                       
+                }
             }
             else
             {
@@ -130,10 +137,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 }
                 _command.Connection.Close();
             }
-            
+
             await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);
 
-            return transfer;           
+            return transfer;
         }
     }
 }
