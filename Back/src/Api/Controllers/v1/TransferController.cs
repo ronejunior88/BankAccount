@@ -29,7 +29,7 @@ namespace Api.Controllers.v1
             _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
         }
 
-        [HttpGet("/idTransfer")]
+        [HttpGet("/GetTransferById")]
         public async Task<IActionResult> GetTransferById(int value)
         {
             try
@@ -44,21 +44,21 @@ namespace Api.Controllers.v1
             
         }
 
-        [HttpGet("/idClientTransfer")]
+        [HttpGet("/GetTransferByClientId")]
         public async Task<IActionResult> GetTransferByClientId(int value)
         {
             var response = await _ITransferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, value);
-            return Ok(new JsonResult(response));
+            return Ok(new JsonResult(response).Value);
         }
 
-        [HttpGet]
+        [HttpGet("/GetTransferAll")]
         public async Task<IActionResult> GetTransferAll()
         {
             var response = await _ITransferBankAccount.GetTransferAll(_bootstrapper, _configuration);
-            return Ok(new JsonResult(response));
+            return Ok(new JsonResult(response).Value);
         }
 
-        [HttpPost]
+        [HttpPost("/InsertTransferBankAccount")]
         public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
         {
             var bankAccount = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, transfer.IdBankAccount);
@@ -69,7 +69,7 @@ namespace Api.Controllers.v1
 
                 if(response != null)
                 {
-                    return Ok(new JsonResult(response));
+                    return Ok(new JsonResult(response).Value);
                 }
                 else 
                 {

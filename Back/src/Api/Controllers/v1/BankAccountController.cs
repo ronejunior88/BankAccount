@@ -27,18 +27,18 @@ namespace Api.Controllers.v1
             _bootstrapper = bootstrapper;
         }
 
-        [HttpPost]
+        [HttpPost("/PostBankAccount")]
         public async Task<IActionResult> PostBankAccount([FromBody]BankAccount value)
         {
             var response = await _IBankAccountCommanderInterface.InsertBankAccount(_bootstrapper, _configuration, value);
             return Ok(response);
         }
 
-        [HttpGet("/idBank")]
+        [HttpGet("/GetBankAccountById")]
         public async Task<IActionResult> GetBankAccountById(int value)
         {
             var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, value);
-            return Ok(new JsonResult(response));
+            return Ok(new JsonResult(response).Value);
         }
     }
 }

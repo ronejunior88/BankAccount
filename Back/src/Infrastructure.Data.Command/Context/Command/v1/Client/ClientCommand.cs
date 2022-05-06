@@ -37,7 +37,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
 
         public async Task<JsonResult> GetClientById(IBootstrapper bootstrapper, IConfiguration configuration, int client)
         {
-            ClientPersonDto cpDto;
+            ClientPersonDto cpDto = null;
 
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
@@ -54,7 +54,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
                     }
                 }
                 _command.Connection.Close();
-                return null;
+                return new JsonResult(cpDto);
             }
         }
     }

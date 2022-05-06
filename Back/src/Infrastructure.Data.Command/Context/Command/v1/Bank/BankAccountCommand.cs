@@ -10,13 +10,22 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.Data.Command.Context.Command.v1.Client;
+using Infrastructure.Data.Command.Interfaces.v1.Client;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Bank
 {
     public class BankAccountCommand : IBankAccountCommanderInterface
     {
+        private ClientCommand _clientCommand;
+
         public async Task<BankAccount> InsertBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, BankAccount bankAccount)
         {
+            _clientCommand = new ClientCommand();
+            var client = _clientCommand.GetClientById(bootstrapper,configuration, bankAccount.IdClient);
+            if (client.Result.Value == null)
+                return null;
+
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
                 _command.CommandText = "EXEC [dbo].[Insert_BankAccount] @IdClient, @Balance, @TypeAccount";
