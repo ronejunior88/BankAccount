@@ -104,26 +104,47 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 
             decimal deposit;
 
-            if (transfer.TypeTransFer == "Deposito")
+            if (transfer.ValueTransfer > 0)
             {
-                deposit = bankAccount.Balance + transfer.ValueTransfer;
-            }
-            else if (transfer.TypeTransFer == "Transferencia" || transfer.TypeTransFer == "Saque")
-            {
-                if (bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0)
+                switch (transfer.TypeTransFer)
                 {
-                    deposit = bankAccount.Balance - transfer.ValueTransfer;
+                    case "Deposito":
+                        deposit = bankAccount.Balance + transfer.ValueTransfer;
+                        break;
+                    case "Transferencia":
+                        deposit = transferWithdraw(transfer, bankAccount);
+                        break;
+                    case "Saque":
+                        deposit = transferWithdraw(transfer, bankAccount);
+                        break;
+                    default:
+                        return null;
                 }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
 
+                if(deposit > 0) 
+                {
+                    insertTransfer(bootstrapper, transfer);
+
+                    await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);
+                }               
+
+                return transfer;
+
+            }
+            return null;
+        }
+
+        public decimal transferWithdraw(Transfer transfer, BankAccountDto bankAccount)
+        {
+            if (bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0)
+            {
+                return bankAccount.Balance - transfer.ValueTransfer;
+            }
+            return 0;
+        }
+
+        public void insertTransfer(IBootstrapper bootstrapper, Transfer transfer) 
+        {
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
                 _command.CommandText = "[dbo].[Insert_Transfer] @IdBankAccount, @ValueTransfer, @TypeTransfer";
@@ -133,14 +154,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 int Id;
                 if (int.TryParse(_command.ExecuteScalar().ToString(), out Id))
                 {
-                    transfer.IdBankAccount = Id;
+                    transfer.Id = Id;
                 }
                 _command.Connection.Close();
             }
-
-            await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);
-
-            return transfer;
         }
     }
 }
