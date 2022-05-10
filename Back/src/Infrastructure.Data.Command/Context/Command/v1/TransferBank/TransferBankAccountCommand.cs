@@ -4,9 +4,11 @@ using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Command.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
+using Infrastructure.Data.Command.Context.Queues.v1;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -102,32 +104,28 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
         {
             BankAccountCommand bankAccountCommand = new BankAccountCommand();
 
-            decimal deposit;
 
             if (transfer.ValueTransfer > 0)
             {
                 switch (transfer.TypeTransFer)
                 {
                     case "Deposito":
-                        deposit = bankAccount.Balance + transfer.ValueTransfer;
+                        bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
                         break;
                     case "Transferencia":
-                        deposit = transferWithdraw(transfer, bankAccount);
+                        bankAccount.Balance = transferWithdraw(transfer, bankAccount);
                         break;
                     case "Saque":
-                        deposit = transferWithdraw(transfer, bankAccount);
+                        bankAccount.Balance = transferWithdraw(transfer, bankAccount);
                         break;
                     default:
                         return null;
-                }
-
-                if(deposit > 0) 
-                {
-                    insertTransfer(bootstrapper, transfer);
-
-                    await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);
-                }               
-
+                }  
+                    TransferQueues queues = new TransferQueues();
+                    var message = JsonConvert.SerializeObject(transfer);
+                    queues.Connect(message);
+                    //insertTransfer(bootstrapper, transfer);
+                    //await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);              
                 return transfer;
 
             }
