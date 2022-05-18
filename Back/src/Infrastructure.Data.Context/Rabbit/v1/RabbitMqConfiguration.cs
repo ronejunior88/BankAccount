@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Data.Command.Context.Queues.v1
+namespace Infrastructure.Data.Command.Context.Rabbit.v1
 {
     public class RabbitMqConfiguration
     {
@@ -16,10 +16,10 @@ namespace Infrastructure.Data.Command.Context.Queues.v1
         public string VirtualHost { get; private set; }
         public string Exchange { get; private set; }
         public string Queue { get; private set; }
-
-        public RabbitMqConfiguration(IConfiguration _configuration)
+       
+        public RabbitMqConfiguration(IConfiguration configuration)
         {
-             
+            var _configuration = configuration;
             Host = _configuration.GetSection("RabbitMqJsonConfiguration").GetSection("Host").Value;
             UserName = _configuration.GetSection("RabbitMqJsonConfiguration").GetSection("UserName").Value;
             Password = _configuration.GetSection("RabbitMqJsonConfiguration").GetSection("Password").Value;

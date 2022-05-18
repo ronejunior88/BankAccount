@@ -2,18 +2,15 @@
 using Domain.Dto.v1;
 using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Command.v1.Bank;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
-using Infrastructure.Data.Command.Context.Queues.v1;
+using Infrastructure.Data.Command.Context.Rabbit.v1;
 using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
@@ -120,10 +117,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                         break;
                     default:
                         return null;
-                }  
-                    TransferQueues queues = new TransferQueues();
+                }
+                TransferQueues queues = new TransferQueues();
                     var message = JsonConvert.SerializeObject(transfer);
-                    queues.Connect(message);
+                    queues.OpenConnection(configuration,message);
                     //insertTransfer(bootstrapper, transfer);
                     //await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);              
                 return transfer;
