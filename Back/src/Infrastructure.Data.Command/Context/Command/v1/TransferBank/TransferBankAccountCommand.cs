@@ -120,7 +120,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 }
                 TransferQueues queues = new TransferQueues();
                     var message = JsonConvert.SerializeObject(transfer);
-                    queues.OpenConnection(configuration,message);
+                    queues.Send(configuration,message);
                     //insertTransfer(bootstrapper, transfer);
                     //await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);              
                 return transfer;
