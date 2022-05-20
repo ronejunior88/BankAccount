@@ -65,7 +65,7 @@ namespace Api.Controllers.v1
 
             if (bankAccount != null && bankAccount.Id > 0) 
             {
-                 var response = await _ITransferBankAccount.InsertTransferBankAccount(_bootstrapper, _configuration, transfer, bankAccount);
+                 var response = await _ITransferBankAccount.InsertTransferBankAccount(_bootstrapper, _configuration, transfer);
 
                 if(response != null)
                 {
@@ -82,6 +82,13 @@ namespace Api.Controllers.v1
                 return NotFound("Account Bank not found");
             }
             
+        }
+
+        [NonAction]
+        [HttpPut("/insertTransfer")]
+        public async void InsertTransfer() 
+        {
+            await _ITransferBankAccount.UpdateTransferBankAccount(_bootstrapper, _configuration);
         }
     }
 }

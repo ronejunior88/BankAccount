@@ -8,6 +8,7 @@ using Infrastructure.Data.Context.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -97,36 +98,13 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
             }
         }
 
-        public async Task<Transfer> InsertTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, Transfer transfer, BankAccountDto bankAccount)
+        public async Task<Transfer> InsertTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, Transfer transfer)
         {
-            BankAccountCommand bankAccountCommand = new BankAccountCommand();
+            TransferQueues queues = new TransferQueues();
+            var message = JsonConvert.SerializeObject(transfer);
+            queues.Send(configuration, message);
 
-
-            if (transfer.ValueTransfer > 0)
-            {
-                switch (transfer.TypeTransFer)
-                {
-                    case "Deposito":
-                        bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
-                        break;
-                    case "Transferencia":
-                        bankAccount.Balance = transferWithdraw(transfer, bankAccount);
-                        break;
-                    case "Saque":
-                        bankAccount.Balance = transferWithdraw(transfer, bankAccount);
-                        break;
-                    default:
-                        return null;
-                }
-                TransferQueues queues = new TransferQueues();
-                    var message = JsonConvert.SerializeObject(transfer);
-                    queues.Send(configuration,message);
-                    //insertTransfer(bootstrapper, transfer);
-                    //await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, bankAccount.Id, deposit);              
-                return transfer;
-
-            }
-            return null;
+            return transfer;
         }
 
         public decimal transferWithdraw(Transfer transfer, BankAccountDto bankAccount)
@@ -138,7 +116,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
             return 0;
         }
 
-        public void insertTransfer(IBootstrapper bootstrapper, Transfer transfer) 
+        public void insertTransfer(IBootstrapper bootstrapper, Transfer transfer)
         {
             using (SqlCommand _command = bootstrapper.CreateCommand())
             {
@@ -153,6 +131,56 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 }
                 _command.Connection.Close();
             }
+        }
+
+        public async Task<Transfer> UpdateTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration)
+        {
+            BankAccountCommand bankAccountCommand = new BankAccountCommand();
+            var read = new TransferQueues();
+            var transfer = (Transfer)JsonConvert.DeserializeObject(read.Read(configuration));
+
+            if (transfer == null)
+                return null;
+
+            var bankAccount = await bankAccountCommand.GetBankAccount_SelectById(bootstrapper, configuration, transfer.IdBankAccount);
+            
+            try
+            {
+                if (transfer.ValueTransfer > 0)
+                {
+                    switch (transfer.TypeTransFer)
+                    {
+                        case "Deposito":
+                            bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
+                            break;
+                        case "Transferencia":
+                            bankAccount.Balance = transferWithdraw(transfer, bankAccount);
+                            break;
+                        case "Saque":
+                            bankAccount.Balance = transferWithdraw(transfer, bankAccount);
+                            break;
+                        default:
+                            return null;
+                    }
+                    
+                    var response = await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, transfer.IdBankAccount, bankAccount.Balance);
+
+                    if (response)
+                    {
+                        insertTransfer(bootstrapper, transfer);
+                        return transfer;
+                    }            
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro: ", ex);
+            }
+            return null;
         }
     }
 }

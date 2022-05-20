@@ -13,6 +13,7 @@ namespace Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank
         Task<JsonResult> GetTransferById(IBootstrapper bootstrapper, IConfiguration configuration, int idTransfer);
         Task<List<TransferBankAccountIdClientDto>> GetTransferByClientId(IBootstrapper bootstrapper, IConfiguration configuration, int idClient);
         Task<List<TransferBankAccountAllDto>> GetTransferAll(IBootstrapper bootstrapper, IConfiguration configuration);
-        Task<Transfer> InsertTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, Transfer transfer, BankAccountDto bankAccount);
+        Task<Transfer> InsertTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration, Transfer transfer);
+        Task<Transfer> UpdateTransferBankAccount(IBootstrapper bootstrapper, IConfiguration configuration);
     }
 }

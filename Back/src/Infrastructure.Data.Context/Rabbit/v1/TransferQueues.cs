@@ -37,7 +37,9 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
             using (var channel = _connection.CreateModel()) 
             {
                 Queue(channel);
-                var consumer = new EventingBasicConsumer(channel);
+                
+               var consumer = new EventingBasicConsumer(channel);
+
                 consumer.Received += (model, ea) =>
                  {
                      var body = ea.Body.ToArray();
@@ -53,7 +55,6 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
                 return responser;
             }
         }
-
         public void Queue(IModel channel)
         {
             channel.QueueDeclare(queue: "BankTransfer",
