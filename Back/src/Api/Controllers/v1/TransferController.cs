@@ -84,7 +84,7 @@ namespace Api.Controllers.v1
             
         }
 
-        [NonAction]
+       
         [HttpPut("/insertTransfer")]
         public async void InsertTransfer() 
         {

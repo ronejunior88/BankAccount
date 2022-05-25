@@ -9,14 +9,14 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
 {
     public class TransferQueues
     {
-        
+
         private static IConnection _connection { get; set; }
         public TransferQueues()
         { }
-        public void Send(IConfiguration _configuration , string message)
+        public void Send(IConfiguration _configuration, string message)
         {
-            _connection =  GetConnectionFactory(_configuration).CreateConnection();
-            
+            _connection = GetConnectionFactory(_configuration).CreateConnection();
+
             using (var channel = _connection.CreateModel())
             {
                 Queue(channel);
@@ -31,28 +31,34 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
             _connection.Dispose();
         }
 
-        public string Read(IConfiguration _configuration) 
+        public List<string> Read(IConfiguration _configuration)
         {
+            List<string> result = new List<string>();
             _connection = GetConnectionFactory(_configuration).CreateConnection();
-            using (var channel = _connection.CreateModel()) 
+            using (var channel = _connection.CreateModel())
             {
                 Queue(channel);
-                
-               var consumer = new EventingBasicConsumer(channel);
 
-                consumer.Received += (model, ea) =>
-                 {
-                     var body = ea.Body.ToArray();
-                     var message = Encoding.UTF8.GetString(body);
+                var consumer = new EventingBasicConsumer(channel);
 
-                 };
+                for (int i = 0; i < channel.MessageCount("BankTransfer"); i++)
+                {
+                    consumer.Received += (model, ea) =>
+                    {
+                        var body = ea.Body.ToArray();
+                        var message = Encoding.UTF8.GetString(body);
+                        result.Add(message);
+                    };
 
-                var responser = channel.BasicConsume(queue: "BankTransfer",
-                                     autoAck: true,
-                                     consumer: consumer
-                                    );
+                    var responser = channel.BasicConsume(queue: "BankTransfer",
+                                         autoAck: true,
+                                         consumer: consumer
+                                        );
+                }
+
+
                 _connection.Dispose();
-                return responser;
+                return result;
             }
         }
         public void Queue(IModel channel)
