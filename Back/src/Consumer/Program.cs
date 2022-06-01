@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Net.Http;
+using System.Text;
 
 namespace Consumer
 {
@@ -14,11 +15,13 @@ namespace Consumer
 
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("//localhost:5000/insertTransfer");
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.BaseAddress = new Uri("http://localhost:5000/");
 
-            HttpResponseMessage response = client.GetAsync("/insertTransfer").Result;
+            var content = new StringContent(client.BaseAddress.ToString(), Encoding.UTF8, "application/json");
+            
+            HttpResponseMessage response = client.PutAsync("/insertTransfer", content).Result;
 
+            Console.WriteLine("Status Response: " + response.StatusCode);
             Console.WriteLine("Finalizando Subscriber");
             Console.ReadLine();
         }

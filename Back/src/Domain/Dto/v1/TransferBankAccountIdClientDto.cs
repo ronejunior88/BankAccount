@@ -12,7 +12,7 @@ namespace Domain.Dto.v1
         public TransferBankAccountIdClientDto(int idTransfer, int idClient, int idPerson, int idAccount, string typeAccount, string nameBank, string typeTransfer, decimal valueTranfer)
         {
             IdTransfer = idTransfer;
-            IdAccount = idClient;
+            IdClient = idClient;
             IdPerson = idPerson;
             IdAccount = idAccount;
             TypeAccount = typeAccount;
