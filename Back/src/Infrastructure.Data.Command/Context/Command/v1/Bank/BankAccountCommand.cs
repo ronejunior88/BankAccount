@@ -12,12 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Infrastructure.Data.Command.Context.Command.v1.Client;
 using Infrastructure.Data.Command.Interfaces.v1.Client;
+using AutoMapper;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Bank
 {
     public class BankAccountCommand : IBankAccountCommanderInterface
     {
-        private ClientCommand _clientCommand;
+        private ClientCommand _clientCommand; 
         public BankAccountCommand()
         {}
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers.v1
 {
-    [Route("api/client")]
+    [Route("api/clients")]
     [ApiController]
     public class ClientController : Controller
     {
@@ -22,17 +22,17 @@ namespace Api.Controllers.v1
             _bootstrapper = bootstrapper;
         }
 
-        [HttpPost("/PostClient")]
-        public async Task<IActionResult> PostClient([FromBody]Person value)
+        [HttpPost("/Clients")]
+        public async Task<IActionResult> GetClient([FromBody]Person person)
         {
-            var response = await _clientCommand.InsertPerson(_bootstrapper, _configuration, value);
+            var response = await _clientCommand.InsertPerson(_bootstrapper, _configuration, person);
             return Ok(response);
         }
 
-        [HttpGet("/GetClientById")]
-        public async Task<IActionResult> GetClientById(int value)
+        [HttpGet("/Clients/{id}")]
+        public async Task<IActionResult> GetClientById(int id)
         {
-            var response = await _clientCommand.GetClientById(_bootstrapper, _configuration, value);
+            var response = await _clientCommand.GetClientById(_bootstrapper, _configuration, id);
             return Ok(response.Value);
         }
     }

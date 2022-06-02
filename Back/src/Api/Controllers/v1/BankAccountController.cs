@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Domain.Dto.v1;
 using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Interfaces.v1;
@@ -12,32 +14,34 @@ using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers.v1
 {
-    [Route("api/bankaccount")]
+    [Route("api/accounts")]
     [ApiController]
     public class BankAccountController : Controller
     {
         private readonly IBankAccountCommanderInterface _IBankAccountCommanderInterface;
         private readonly IConfiguration _configuration;
         private readonly IBootstrapper _bootstrapper;
+        private readonly IMapper _mapper;
 
-        public BankAccountController(IBootstrapper bootstrapper, IBankAccountCommanderInterface IBankAccountCommanderInterface, IConfiguration configuration)
+        public BankAccountController(IBootstrapper bootstrapper, IBankAccountCommanderInterface IBankAccountCommanderInterface, IConfiguration configuration, IMapper mapper)
         {
             _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
             _configuration = configuration;
             _bootstrapper = bootstrapper;
+            _mapper = mapper;
         }
 
-        [HttpPost("/PostBankAccount")]
-        public async Task<IActionResult> PostBankAccount([FromBody]BankAccount value)
+        [HttpPost("/bankAccounts")]
+        public async Task<IActionResult> BankAccount([FromBody]BankAccount value)
         {
             var response = await _IBankAccountCommanderInterface.InsertBankAccount(_bootstrapper, _configuration, value);
             return Ok(response);
         }
 
-        [HttpGet("/GetBankAccountById")]
-        public async Task<IActionResult> GetBankAccountById(int value)
+        [HttpGet("/bankAccounts/{id}")]
+        public async Task<IActionResult> GetBankAccount(int id)
         {
-            var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, value);
+            var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration,id);
             return Ok(new JsonResult(response).Value);
         }
     }

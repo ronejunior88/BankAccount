@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers.v1
 {
-    [Route("api/transferaccount")]
+    [Route("api/transferAccounts")]
     [ApiController]
     public class TransferController : Controller
     {
@@ -29,12 +29,12 @@ namespace Api.Controllers.v1
             _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
         }
 
-        [HttpGet("/GetTransferById")]
-        public async Task<IActionResult> GetTransferById(int value)
+        [HttpGet("/Transfers/{id}")]
+        public async Task<IActionResult> GetTransfer(int id)
         {
             try
             {
-                var response = await _ITransferBankAccount.GetTransferById(_bootstrapper, _configuration, value);
+                var response = await _ITransferBankAccount.GetTransferById(_bootstrapper, _configuration, id);
                   return Ok(response.Value);               
             }
             catch (Exception ex)
@@ -44,21 +44,21 @@ namespace Api.Controllers.v1
             
         }
 
-        [HttpGet("/GetTransferByClientId")]
-        public async Task<IActionResult> GetTransferByClientId(int value)
+        [HttpGet("/Transfers/{id}/client")]
+        public async Task<IActionResult> GetTransferByClientId(int id)
         {
-            var response = await _ITransferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, value);
+            var response = await _ITransferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, id);
             return Ok(new JsonResult(response).Value);
         }
 
-        [HttpGet("/GetTransferAll")]
+        [HttpGet("/Transfers/all")]
         public async Task<IActionResult> GetTransferAll()
         {
             var response = await _ITransferBankAccount.GetTransferAll(_bootstrapper, _configuration);
             return Ok(new JsonResult(response).Value);
         }
 
-        [HttpPost("/InsertTransferBankAccount")]
+        [HttpPost("/Transfers/bankAccount")]
         public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
         {
             var bankAccount = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, transfer.IdBankAccount);
@@ -85,7 +85,7 @@ namespace Api.Controllers.v1
         }
 
        
-        [HttpPut("/insertTransfer")]
+        [HttpPut("/Transfers/insert")]
         public async void InsertTransfer() 
         {
             await _ITransferBankAccount.UpdateTransferBankAccount(_bootstrapper, _configuration);
