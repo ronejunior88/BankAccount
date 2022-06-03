@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Client
 {
-    public class ClientCommand : IClientCommandInterface
+    public class ClientCommand : IClient
     {
 
         public async Task<Person> InsertPerson(IBootstrapper bootstrapper, IConfiguration configuration, Person person)

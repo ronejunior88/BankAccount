@@ -6,7 +6,7 @@ using Domain.Entities.v1;
 
 namespace Infrastructure.Data.Command.Interfaces.v1.Client
 {
-    public interface IClientCommandInterface
+    public interface IClient
     {
         Task<Person> InsertPerson(IBootstrapper bootstrapper,IConfiguration configuration, Person person);
 

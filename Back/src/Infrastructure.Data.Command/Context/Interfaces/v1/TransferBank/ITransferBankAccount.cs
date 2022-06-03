@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank
 {
-    public interface ITransferBankAccountInterface
+    public interface ITransferBankAccount
     {
         Task<JsonResult> GetTransferById(IBootstrapper bootstrapper, IConfiguration configuration, int idTransfer);
         Task<List<TransferBankAccountIdClientDto>> GetTransferByClientId(IBootstrapper bootstrapper, IConfiguration configuration, int idClient);

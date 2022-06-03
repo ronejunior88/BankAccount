@@ -11,13 +11,13 @@ namespace Api.Controllers.v1
     [ApiController]
     public class ClientController : Controller
     {
-        private readonly IClientCommandInterface _clientCommand;
+        private readonly IClient _client;
         private readonly IConfiguration _configuration;
         private readonly IBootstrapper _bootstrapper;
 
-        public ClientController(IBootstrapper bootstrapper, IClientCommandInterface clientCommand, IConfiguration configuration)
+        public ClientController(IBootstrapper bootstrapper, IClient client, IConfiguration configuration)
         {
-            _clientCommand = clientCommand;
+            _client = client;
             _configuration = configuration;
             _bootstrapper = bootstrapper;
         }
@@ -25,14 +25,14 @@ namespace Api.Controllers.v1
         [HttpPost("/Clients")]
         public async Task<IActionResult> GetClient([FromBody]Person person)
         {
-            var response = await _clientCommand.InsertPerson(_bootstrapper, _configuration, person);
+            var response = await _client.InsertPerson(_bootstrapper, _configuration, person);
             return Ok(response);
         }
 
         [HttpGet("/Clients/{id}")]
         public async Task<IActionResult> GetClientById(int id)
         {
-            var response = await _clientCommand.GetClientById(_bootstrapper, _configuration, id);
+            var response = await _client.GetClientById(_bootstrapper, _configuration, id);
             return Ok(response.Value);
         }
     }

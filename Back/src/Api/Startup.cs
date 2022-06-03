@@ -43,9 +43,9 @@ namespace Api
 
 
             services.AddScoped(Connect);
-            services.AddScoped<IClientCommandInterface, ClientCommand>();
-            services.AddScoped<IBankAccountCommanderInterface, BankAccountCommand>();
-            services.AddScoped<ITransferBankAccountInterface, TransferBankAccountCommand>();
+            services.AddScoped<IClient, ClientCommand>();
+            services.AddScoped<IBankAccount, BankAccountCommand>();
+            services.AddScoped<ITransferBankAccount, TransferBankAccountCommand>();
             services.AddScoped<IBootstrapper, Bootstrapper>();
             services.AddControllers();
 

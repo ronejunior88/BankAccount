@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 {
-    public class TransferBankAccountCommand : ITransferBankAccountInterface
+    public class TransferBankAccountCommand : ITransferBankAccount
     {
         private readonly IMapper _mapper;
         public TransferBankAccountCommand(IMapper mapper)
@@ -146,7 +146,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                 if (transfer == null)
                     return null;
 
-                var bankAccount = await bankAccountCommand.GetBankAccount_SelectById(bootstrapper, configuration, transfer.IdBankAccount);
+                var bankAccount = await bankAccountCommand.GetBankAccountSelectById(bootstrapper, configuration, transfer.IdBankAccount);
 
                 try
                 {
@@ -167,7 +167,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                                 return null;
                         }
 
-                        var response = await bankAccountCommand.UpdateBankAccount_BalanceByTransfer(bootstrapper, configuration, transfer.IdBankAccount, bankAccount.Balance);
+                        var response = await bankAccountCommand.UpdateBankAccountBalanceByTransfer(bootstrapper, configuration, transfer.IdBankAccount, bankAccount.Balance);
 
                         if (response)
                         {

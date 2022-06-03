@@ -14,19 +14,19 @@ namespace Api.Controllers.v1
     [ApiController]
     public class TransferController : Controller
     {
-        private readonly ITransferBankAccountInterface _ITransferBankAccount;
-        private readonly IBankAccountCommanderInterface _IBankAccountCommanderInterface;
+        private readonly ITransferBankAccount _transferBankAccount;
+        private readonly IBankAccount _bankAccount;
         private readonly IConfiguration _configuration;
         private readonly IBootstrapper _bootstrapper;
 
-        public TransferController(IConfiguration configuration, IBootstrapper bootstrapper, 
-                                  ITransferBankAccountInterface ITransferBankAccount, 
-                                  IBankAccountCommanderInterface IBankAccountCommanderInterface)
+        public TransferController(IConfiguration configuration, IBootstrapper bootstrapper,
+                                  ITransferBankAccount ITransferBankAccount,
+                                  IBankAccount bankAccount)
         {
             _configuration = configuration;
             _bootstrapper = bootstrapper;
-            _ITransferBankAccount = ITransferBankAccount;
-            _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
+            _transferBankAccount = ITransferBankAccount;
+            _bankAccount = bankAccount;
         }
 
         [HttpGet("/Transfers/{id}")]
@@ -34,7 +34,7 @@ namespace Api.Controllers.v1
         {
             try
             {
-                var response = await _ITransferBankAccount.GetTransferById(_bootstrapper, _configuration, id);
+                var response = await _transferBankAccount.GetTransferById(_bootstrapper, _configuration, id);
                   return Ok(response.Value);               
             }
             catch (Exception ex)
@@ -47,25 +47,25 @@ namespace Api.Controllers.v1
         [HttpGet("/Transfers/{id}/client")]
         public async Task<IActionResult> GetTransferByClientId(int id)
         {
-            var response = await _ITransferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, id);
+            var response = await _transferBankAccount.GetTransferByClientId(_bootstrapper, _configuration, id);
             return Ok(new JsonResult(response).Value);
         }
 
         [HttpGet("/Transfers/all")]
         public async Task<IActionResult> GetTransferAll()
         {
-            var response = await _ITransferBankAccount.GetTransferAll(_bootstrapper, _configuration);
+            var response = await _transferBankAccount.GetTransferAll(_bootstrapper, _configuration);
             return Ok(new JsonResult(response).Value);
         }
 
         [HttpPost("/Transfers/bankAccount")]
         public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
         {
-            var bankAccount = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration, transfer.IdBankAccount);
+            var bankAccount = await _bankAccount.GetBankAccountSelectById(_bootstrapper, _configuration, transfer.IdBankAccount);
 
             if (bankAccount != null && bankAccount.Id > 0) 
             {
-                 var response = await _ITransferBankAccount.InsertTransferBankAccount(_bootstrapper, _configuration, transfer);
+                 var response = await _transferBankAccount.InsertTransferBankAccount(_bootstrapper, _configuration, transfer);
 
                 if(response != null)
                 {
@@ -88,7 +88,7 @@ namespace Api.Controllers.v1
         [HttpPut("/Transfers/insert")]
         public async void InsertTransfer() 
         {
-            await _ITransferBankAccount.UpdateTransferBankAccount(_bootstrapper, _configuration);
+            await _transferBankAccount.UpdateTransferBankAccount(_bootstrapper, _configuration);
         }
     }
 }

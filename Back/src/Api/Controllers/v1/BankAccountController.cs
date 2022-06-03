@@ -18,14 +18,14 @@ namespace Api.Controllers.v1
     [ApiController]
     public class BankAccountController : Controller
     {
-        private readonly IBankAccountCommanderInterface _IBankAccountCommanderInterface;
+        private readonly IBankAccount _bankAccount;
         private readonly IConfiguration _configuration;
         private readonly IBootstrapper _bootstrapper;
         private readonly IMapper _mapper;
 
-        public BankAccountController(IBootstrapper bootstrapper, IBankAccountCommanderInterface IBankAccountCommanderInterface, IConfiguration configuration, IMapper mapper)
+        public BankAccountController(IBootstrapper bootstrapper, IBankAccount bankAccount, IConfiguration configuration, IMapper mapper)
         {
-            _IBankAccountCommanderInterface = IBankAccountCommanderInterface;
+            _bankAccount = bankAccount;
             _configuration = configuration;
             _bootstrapper = bootstrapper;
             _mapper = mapper;
@@ -34,14 +34,14 @@ namespace Api.Controllers.v1
         [HttpPost("/bankAccounts")]
         public async Task<IActionResult> BankAccount([FromBody]BankAccount value)
         {
-            var response = await _IBankAccountCommanderInterface.InsertBankAccount(_bootstrapper, _configuration, value);
+            var response = await _bankAccount.InsertBankAccount(_bootstrapper, _configuration, value);
             return Ok(response);
         }
 
         [HttpGet("/bankAccounts/{id}")]
         public async Task<IActionResult> GetBankAccount(int id)
         {
-            var response = await _IBankAccountCommanderInterface.GetBankAccount_SelectById(_bootstrapper, _configuration,id);
+            var response = await _bankAccount.GetBankAccountSelectById(_bootstrapper, _configuration,id);
             return Ok(new JsonResult(response).Value);
         }
     }

@@ -16,7 +16,7 @@ using AutoMapper;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Bank
 {
-    public class BankAccountCommand : IBankAccountCommanderInterface
+    public class BankAccountCommand : IBankAccount
     {
         private ClientCommand _clientCommand; 
         public BankAccountCommand()
@@ -45,7 +45,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
             }
         }
 
-        public async Task<BankAccountDto> GetBankAccount_SelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount)
+        public async Task<BankAccountDto> GetBankAccountSelectById(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount)
         {
             BankAccountDto bkDto;
 
@@ -68,7 +68,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
             }
         }
 
-        public async Task<bool> UpdateBankAccount_BalanceByTransfer(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount, decimal balance)
+        public async Task<bool> UpdateBankAccountBalanceByTransfer(IBootstrapper bootstrapper, IConfiguration configuration, int bankAccount, decimal balance)
         {
             bool retorno = false;
 
