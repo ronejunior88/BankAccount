@@ -5,8 +5,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.24" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
 		<PackageReference Include="RabbitMQ.Client" Version="6.3.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
@@ -17,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Context\v1\" />
 	  <Folder Include="Scripts\" />
 	</ItemGroup>
 

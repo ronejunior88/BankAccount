@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data.Command", "Infrastructure.Data.Command\Infrastructure.Data.Command.csproj", "{57E820AC-4ABE-4DE6-B660-0244907C875F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data.Context", "Infrastructure.Data.Context\Infrastructure.Data.Context.csproj", "{1B9523BC-3CF5-40DF-BF73-8589E179C6E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data.Repository", "Infrastructure.Data.Context\Infrastructure.Data.Repository.csproj", "{1B9523BC-3CF5-40DF-BF73-8589E179C6E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Consumer", "4 - Consumer", "{1E9FC1F7-1724-440F-9E98-4C752E4A630B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{873D932B-CE69-4FA0-987F-74F45D2544B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer", "Consumer\Consumer.csproj", "{873D932B-CE69-4FA0-987F-74F45D2544B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

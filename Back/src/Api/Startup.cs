@@ -7,46 +7,45 @@ using Infrastructure.Data.Command.Context.Command.v1.TransferBank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Command.Interfaces.v1.Client;
-using Infrastructure.Data.Context.Infrastructure.Ioc;
-using Infrastructure.Data.Context.Interfaces.v1;
+using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Data.SqlClient;
 
 namespace Api
 {
     public class Startup
     {
-        public IConfiguration _cofiguration { get; }
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {
-            _cofiguration = configuration;
+            _configuration = configuration;
         }
         
         public void ConfigureServices(IServiceCollection services)
         {
-            Func<IServiceProvider, SqlConnection> Connect =
-                 a => new SqlConnection(_cofiguration.GetConnectionString("BankAccount"));
+
+            var connectionString = _configuration.GetConnectionString("BankAccount");
 
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Transfer, TransferDto>();
             });
             IMapper mapper = config.CreateMapper();
+
+            
+
             services.AddSingleton(mapper);
 
-
-
-            services.AddScoped(Connect);
+            
             services.AddScoped<IClient, ClientCommand>();
             services.AddScoped<IBankAccount, BankAccountCommand>();
             services.AddScoped<ITransferBankAccount, TransferBankAccountCommand>();
-            services.AddScoped<IBootstrapper, Bootstrapper>();
+            services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddControllers();
 
             services.AddCors(options =>
