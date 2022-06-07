@@ -9,8 +9,8 @@ namespace Infrastructure.Data.Repository.Interfaces.v1
 {
     public interface IClientRepository
     {
-        Task InsertPerson(Person person);
+        Task InsertPersonAsync(Person person);
 
-        Task<JsonResult> GetClientById(int client);
+        Task<JsonResult> GetClientByIdAsync(int client);
     }
 }

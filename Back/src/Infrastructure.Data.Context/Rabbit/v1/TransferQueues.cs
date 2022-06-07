@@ -11,11 +11,17 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
     {
 
         private static IConnection _connection { get; set; }
+        private string _connectRabbitMq;
         public TransferQueues()
         { }
-        public void Send(IConfiguration _configuration, string message)
+
+        public TransferQueues(string connectRabbitMq)
         {
-            _connection = GetConnectionFactory(_configuration).CreateConnection();
+            _connectRabbitMq = connectRabbitMq;
+        }
+        public void Send(IConfiguration configuration, string message)
+        {
+            _connection = GetConnectionFactory(configuration).CreateConnection();
 
             using (var channel = _connection.CreateModel())
             {
@@ -31,10 +37,10 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
             _connection.Dispose();
         }
 
-        public List<string> Read(IConfiguration _configuration)
+        public List<string> Read(IConfiguration configuration)
         {
             List<string> result = new List<string>();
-            _connection = GetConnectionFactory(_configuration).CreateConnection();
+            _connection = GetConnectionFactory(configuration).CreateConnection();
             using (var channel = _connection.CreateModel())
             {
                 Queue(channel);
@@ -70,9 +76,9 @@ namespace Infrastructure.Data.Command.Context.Rabbit.v1
                       arguments: null
                     );
         }
-        private ConnectionFactory GetConnectionFactory(IConfiguration _configuration)
+        private ConnectionFactory GetConnectionFactory(IConfiguration configuration)
         {
-            var _rabbitMqConfiguration = new RabbitMqConfiguration(_configuration);
+            var _rabbitMqConfiguration = new RabbitMqConfiguration(configuration);
             return new ConnectionFactory()
             {
                 HostName = _rabbitMqConfiguration.Host,

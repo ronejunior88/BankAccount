@@ -26,7 +26,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         { }
 
 
-        public async Task InsertBankAccount(BankAccount bankAccount)
+        public async Task InsertBankAccountAsync(BankAccount bankAccount)
         {
             using var connection = new SqlConnection(_connectionString);
             var query = "[dbo].[Insert_BankAccount]";
@@ -41,7 +41,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
             }
             
         }
-        public async Task<BankAccountDto> GetBankAccountSelectById(int bankAccount)
+        public async Task<BankAccountDto> GetBankAccountSelectByIdAsync(int bankAccount)
         {
 
             using var connection = new SqlConnection(_connectionString);
@@ -60,15 +60,14 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
                        
 
         }
-        public async Task<bool> UpdateBankAccountBalanceByTransfer(int bankAccount, decimal balance)
+        public async Task UpdateBankAccountBalanceByTransferAsync(int bankAccount, decimal balance)
         {
             //_command.CommandText = "[dbo].[BankAccount_UpdateBalanceByTransfer] @Id, @Balance";
             using var connection = new SqlConnection(_connectionString);
 
             var query = "BankAccount_UpdateBalanceByTransfer";
             var parameters = new { Id = bankAccount, Balance = balance };
-            var result = await connection.QueryAsync<bool>(query, parameters, commandType: CommandType.StoredProcedure);
-            return result.FirstOrDefault();
+            await connection.QueryAsync(query, parameters, commandType: CommandType.StoredProcedure);
         }
     }
 }

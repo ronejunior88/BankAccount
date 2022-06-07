@@ -30,7 +30,7 @@ namespace Api.Controllers.v1
         {
             try
             {
-                var response = await _transferBankAccount.GetTransferById(id);
+                var response = await _transferBankAccount.GetTransferByIdAsync(id);
                   return Ok(response.Value);               
             }
             catch (Exception ex)
@@ -43,35 +43,26 @@ namespace Api.Controllers.v1
         [HttpGet("/Transfers/{id}/client")]
         public async Task<IActionResult> GetTransferByClientId(int id)
         {
-            var response = await _transferBankAccount.GetTransferByClientId(id);
+            var response = await _transferBankAccount.GetTransferByClientIdAsync(id);
             return Ok(new JsonResult(response).Value);
         }
 
         [HttpGet("/Transfers/all")]
         public async Task<IActionResult> GetTransferAll()
         {
-            var response = await _transferBankAccount.GetTransferAll();
+            var response = await _transferBankAccount.GetTransferAllAsync();
             return Ok(new JsonResult(response).Value);
         }
 
         [HttpPost("/Transfers/bankAccount")]
         public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
         {
-            var bankAccount = await _bankAccount.GetBankAccountSelectById(transfer.IdBankAccount);
+            var bankAccount = await _bankAccount.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
 
             if (bankAccount != null && bankAccount.Id > 0) 
             {
-                 var response = await _transferBankAccount.InsertTransferBankAccount(transfer);
-
-                if(response != null)
-                {
-                    return Ok(new JsonResult(response).Value);
-                }
-                else 
-                {
-                    return BadRequest("Tipo de movimentação Invalido, informe: Saque, Deposito, Transferencia ou Saldo Indisponivel!");
-                }
-                        
+                  await _transferBankAccount.InsertTransferBankAccountAsync(transfer);         
+                   return Ok();        
             }
             else
             {
@@ -82,9 +73,9 @@ namespace Api.Controllers.v1
 
        
         [HttpPut("/Transfers/insert")]
-        public async void InsertTransfer() 
+        public void InsertTransfer() 
         {
-            await _transferBankAccount.UpdateTransferBankAccount();
+             _transferBankAccount.UpdateTransferBankAccountAsync();
         }
     }
 }

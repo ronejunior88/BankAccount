@@ -22,14 +22,14 @@ namespace Api.Controllers.v1
         [HttpPost("/Clients")]
         public async Task<IActionResult> GetClient([FromBody]Person person)
         {
-            await _client.InsertPerson(person);
+            await _client.InsertPersonAsync(person);
             return Ok();
         }
 
         [HttpGet("/Clients/{id}")]
         public async Task<IActionResult> GetClientById(int id)
         {
-            var response = await _client.GetClientById(id);
+            var response = await _client.GetClientByIdAsync(id);
             return Ok(response.Value);
         }
     }

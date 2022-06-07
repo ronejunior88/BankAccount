@@ -6,8 +6,8 @@ namespace Infrastructure.Data.Command.Interfaces.v1.Client
 {
     public interface IClient
     {
-        Task InsertPerson(Person person);
+        Task InsertPersonAsync(Person person);
 
-        Task<JsonResult> GetClientById(int client);
+        Task<JsonResult> GetClientByIdAsync(int client);
     }
 }

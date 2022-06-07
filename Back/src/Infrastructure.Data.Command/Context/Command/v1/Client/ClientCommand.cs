@@ -24,16 +24,16 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
         }
         public ClientCommand()
         { }
-        public async Task InsertPerson(Person person)
+        public async Task InsertPersonAsync(Person person)
         {
             _clientRepository = new ClientRepository(_connectionString);
-            await _clientRepository.InsertPerson(person);
+            await _clientRepository.InsertPersonAsync(person);
         }
 
-        public async Task<JsonResult> GetClientById(int client)
+        public async Task<JsonResult> GetClientByIdAsync(int client)
         {
             _clientRepository = new ClientRepository(_connectionString);
-            var result = await _clientRepository.GetClientById(client);
+            var result = await _clientRepository.GetClientByIdAsync(client);
             return result;
         }        
     }

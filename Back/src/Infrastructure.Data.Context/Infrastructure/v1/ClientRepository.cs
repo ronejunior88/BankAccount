@@ -21,7 +21,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         }
         public ClientRepository()
         { }
-        public async Task InsertPerson(Person person)
+        public async Task InsertPersonAsync(Person person)
         {
             using var connection = new SqlConnection(_connectionString);
             var sql = "[dbo].[Insert_Person]";
@@ -37,7 +37,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
             }
         }
 
-        public async Task<JsonResult> GetClientById(int client)
+        public async Task<JsonResult> GetClientByIdAsync(int client)
         {
             using var connection = new SqlConnection(_connectionString);
             var sql = "[dbo].[Client_SelectById]";

@@ -9,10 +9,10 @@ namespace Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank
 {
     public interface ITransferBankAccount
     {
-        Task<JsonResult> GetTransferById(int idTransfer);
-        Task<List<TransferBankAccountIdClientDto>> GetTransferByClientId(int idClient);
-        Task<List<TransferBankAccountAllDto>> GetTransferAll();
-        Task<Transfer> InsertTransferBankAccount(Transfer transfer);
-        Task<Transfer> UpdateTransferBankAccount();
+        Task<JsonResult> GetTransferByIdAsync(int idTransfer);
+        Task<IEnumerable<TransferBankAccountIdClientDto>> GetTransferByClientIdAsync(int idClient);
+        Task<IEnumerable<TransferBankAccountAllDto>> GetTransferAllAsync();
+        Task InsertTransferBankAccountAsync(Transfer transfer);
+        Task UpdateTransferBankAccountAsync();
     }
 }

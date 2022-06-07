@@ -30,14 +30,14 @@ namespace Api.Controllers.v1
         [HttpPost("/bankAccounts")]
         public async Task<IActionResult> BankAccount([FromBody]BankAccount value)
         {
-            await _bankAccount.InsertBankAccount(value);
+            await _bankAccount.InsertBankAccountAsync(value);
             return Ok();
         }
 
         [HttpGet("/bankAccounts/{id}")]
         public async Task<IActionResult> GetBankAccount(int id)
         {
-            var response = await _bankAccount.GetBankAccountSelectById(id);
+            var response = await _bankAccount.GetBankAccountSelectByIdAsync(id);
             return Ok(new JsonResult(response).Value);
         }
     }
