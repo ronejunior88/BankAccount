@@ -21,18 +21,17 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Client
         {
             _configuration = configuration;
             _connectionString = configuration.GetConnectionString("BankAccount");
+            _clientRepository = new ClientRepository(_connectionString);
         }
         public ClientCommand()
         { }
         public async Task InsertPersonAsync(Person person)
-        {
-            _clientRepository = new ClientRepository(_connectionString);
+        {         
             await _clientRepository.InsertPersonAsync(person);
         }
 
         public async Task<JsonResult> GetClientByIdAsync(int client)
         {
-            _clientRepository = new ClientRepository(_connectionString);
             var result = await _clientRepository.GetClientByIdAsync(client);
             return result;
         }        

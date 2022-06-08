@@ -20,26 +20,22 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank
         {
             _configuration = configuration;
             _connectionString = configuration.GetConnectionString("BankAccount");
+            _bankAccountRepository = new BankAccountRepository(_connectionString);
         }
 
         public async Task InsertBankAccountAsync(BankAccount bankAccount)
-        {
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
+        {      
             await _bankAccountRepository.InsertBankAccountAsync(bankAccount);
         }
         
         public async Task<BankAccountDto> GetBankAccountSelectByIdAsync(int bankAccount)
         {
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
             var bkDto = await _bankAccountRepository.GetBankAccountSelectByIdAsync(bankAccount);
             return bkDto;
-        }
-
-       
+        }       
 
         public async Task UpdateBankAccountBalanceByTransferAsync(int bankAccount, decimal balance)
         {
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
             await _bankAccountRepository.UpdateBankAccountBalanceByTransferAsync(bankAccount, balance);
         }
     }

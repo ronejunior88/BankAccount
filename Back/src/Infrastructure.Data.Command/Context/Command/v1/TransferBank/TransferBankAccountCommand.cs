@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿ using AutoMapper;
 using Domain.Dto.v1;
 using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Command.v1.Bank;
@@ -26,6 +26,8 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
         {
             _configuration = configuration;
             _connectionString = configuration.GetConnectionString("BankAccount");
+            _transferRepository = new TransferRepository(_connectionString);
+            _bankAccountRepository = new BankAccountRepository(_connectionString);
         }
 
         public TransferBankAccountCommand()
@@ -33,19 +35,16 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 
         public async Task<JsonResult> GetTransferByIdAsync(int idTransfer)
         {
-            _transferRepository = new TransferRepository(_connectionString);
             return await _transferRepository.GetTransferByIdAsync(idTransfer);
         }
 
         public async Task<IEnumerable<TransferBankAccountIdClientDto>> GetTransferByClientIdAsync(int idClient)
         {
-            _transferRepository = new TransferRepository(_connectionString);
             return await _transferRepository.GetTransferByClientIdAsync(idClient);
         }
 
         public async Task<IEnumerable<TransferBankAccountAllDto>> GetTransferAllAsync()
         {
-            _transferRepository = new TransferRepository(_connectionString);
             return await _transferRepository.GetTransferAllAsync();
         }
 
@@ -67,15 +66,11 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
 
         public void insertTransfer(Transfer transfer)
         {
-            _transferRepository = new TransferRepository();
             _transferRepository.insertTransferAsync(transfer);
         }
 
         public async Task UpdateTransferBankAccountAsync()
         {
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
-            _transferRepository = new TransferRepository(_connectionString);
-
             var read = new TransferQueues();
             var listTransfer = read.Read(_configuration);
 
