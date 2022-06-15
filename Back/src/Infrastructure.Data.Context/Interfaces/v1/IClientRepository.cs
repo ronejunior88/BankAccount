@@ -1,4 +1,5 @@
-﻿using Domain.Entities.v1;
+﻿using Domain.Dto.v1;
+using Domain.Entities.v1;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,6 @@ namespace Infrastructure.Data.Repository.Interfaces.v1
 {
     public interface IClientRepository
     {
-        Task InsertPersonAsync(Person person);
-
-        Task<JsonResult> GetClientByIdAsync(int client);
+        Task<ClientPersonDto> GetClientByIdAsync(int client);
     }
 }

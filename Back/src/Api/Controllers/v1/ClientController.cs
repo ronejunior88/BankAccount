@@ -1,5 +1,7 @@
 ﻿using Domain.Entities.v1;
+using Infrastructure.Data.Command.Context.Command.v1.Clients;
 using Infrastructure.Data.Command.Interfaces.v1.Client;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
@@ -10,27 +12,20 @@ namespace Api.Controllers.v1
     [ApiController]
     public class ClientController : Controller
     {
-        private readonly IClient _client;
+        private readonly IMediator _mediator;
         private readonly IConfiguration _configuration;
 
-        public ClientController(IClient client, IConfiguration configuration)
+        public ClientController(IMediator mediator, IConfiguration configuration)
         {
-            _client = client;
+            _mediator = mediator;
             _configuration = configuration;
-        }
-
-        [HttpPost("/Clients")]
-        public async Task<IActionResult> GetClient([FromBody]Person person)
-        {
-            await _client.InsertPersonAsync(person);
-            return Ok();
         }
 
         [HttpGet("/Clients/{id}")]
         public async Task<IActionResult> GetClientById(int id)
         {
-            var response = await _client.GetClientByIdAsync(id);
-            return Ok(response.Value);
+            var response = await _mediator.Send(new ClientRequest(id));
+            return Ok(response);
         }
     }
 }
