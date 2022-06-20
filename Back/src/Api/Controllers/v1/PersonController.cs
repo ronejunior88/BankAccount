@@ -24,7 +24,7 @@ namespace Api.Controllers.v1
         }
 
         [HttpPost("/Persons")]
-        public async Task<ActionResult> GetClient([FromBody]PersonRequest person)
+        public async Task<ActionResult> GetClient([FromBody]Insert_PersonRequest person)
         {
             await _mediator.Send(person);
             return Ok("Pessoa Cadastrada com Suceeso! ");

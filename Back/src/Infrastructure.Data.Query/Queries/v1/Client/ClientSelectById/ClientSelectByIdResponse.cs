@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Domain.Entities.v1;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.Data.Query.Queries.v1.Client.GetClientById
+namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
-    public class GetClientByIdProcedureResponse
+    public class ClientSelectByIdResponse
     {
         public int Id { get; set; }
         public int IdPerson { get; set; }

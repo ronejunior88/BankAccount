@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Bank
 {
-    public class BankAccountReponse : BankAccountDto
+    public class InsertBankAccountResponse : BankAccountDto
     {
     }
 }

@@ -12,31 +12,31 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Persons
 {
-    public class PersonHandler : IPerson, IRequestHandler<PersonRequest, PersonResponse>
+    public class Insert_PersonHandler : IInsert_Person, IRequestHandler<Insert_PersonRequest, Insert_PersonResponse>
     {
         private readonly string _connectionString;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private PersonRepository _person;
 
-        public PersonHandler(IConfiguration configuration, IMapper mapper)
+        public Insert_PersonHandler(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
             _mapper = mapper;
             _connectionString = configuration.GetConnectionString("BankAccount");
             _person = new PersonRepository(_connectionString);
         }
-        public PersonHandler()
+        public Insert_PersonHandler()
         { }
-        public async Task<PersonResponse> Handle(PersonRequest request, CancellationToken cancellationToken)
+        public async Task<Insert_PersonResponse> Handle(Insert_PersonRequest request, CancellationToken cancellationToken)
         {
            return await InsertPersonAsync(request);
         }
 
-        public async Task<PersonResponse> InsertPersonAsync(PersonRequest person)
+        public async Task<Insert_PersonResponse> InsertPersonAsync(Insert_PersonRequest person)
         {
             var result = await _person.InsertPersonAsync(_mapper.Map<Person>(person));
-            return _mapper.Map<PersonResponse>(result);
+            return _mapper.Map<Insert_PersonResponse>(result);
         }
     }
 }

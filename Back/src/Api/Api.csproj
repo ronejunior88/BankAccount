@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Command\Infrastructure.Data.Command.csproj" />
     <ProjectReference Include="..\Infrastructure.Data.Context\Infrastructure.Data.Repository.csproj" />
+    <ProjectReference Include="..\Infrastructure.Data.Query\Infrastructure.Data.Query.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

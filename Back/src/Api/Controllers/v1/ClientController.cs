@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Command.v1.Clients;
-using Infrastructure.Data.Command.Interfaces.v1.Client;
+using Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +23,7 @@ namespace Api.Controllers.v1
         [HttpGet("/Clients/{id}")]
         public async Task<IActionResult> GetClientById(int id)
         {
-            var response = await _mediator.Send(new ClientRequest(id));
+            var response = await _mediator.Send(new ClientSelectByIdRequest(id));
             return Ok(response);
         }
     }

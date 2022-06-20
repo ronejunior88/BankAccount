@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Interfaces.v1.Persons
 {
-    public interface IPerson
+    public interface IInsert_Person
     {
-        Task<PersonResponse> InsertPersonAsync(PersonRequest person);
+        Task<Insert_PersonResponse> InsertPersonAsync(Insert_PersonRequest person);
     }
 }

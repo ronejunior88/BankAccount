@@ -9,7 +9,7 @@ namespace Infrastructure.Data.Repository.Interfaces.v1
 {
     public interface IBankAccountRepository
     {
-        Task InsertBankAccountAsync(BankAccount bankAccount);
+        Task<BankAccount> InsertBankAccountAsync(BankAccount bankAccount);
         Task<BankAccountDto> GetBankAccountSelectByIdAsync(int bankAccount);
         Task UpdateBankAccountBalanceByTransferAsync(int bankAccount, decimal balance);
     }

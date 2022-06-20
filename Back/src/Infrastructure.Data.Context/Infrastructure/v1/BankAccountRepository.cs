@@ -26,14 +26,15 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         { }
 
 
-        public async Task InsertBankAccountAsync(BankAccount bankAccount)
+        public async Task<BankAccount> InsertBankAccountAsync(BankAccount bankAccount)
         {
             using var connection = new SqlConnection(_connectionString);
             var query = "[dbo].[Insert_BankAccount]";
             var parameters = new { IdClient = bankAccount.IdClient, Balance = bankAccount.Balance, TypeAccount = bankAccount.TypeAccount };
             try
             {
-                await connection.QueryAsync(query, parameters, commandType: CommandType.StoredProcedure);
+                var result = await connection.QueryAsync<BankAccount>(query, parameters, commandType: CommandType.StoredProcedure);
+                return result.FirstOrDefault();
             }
             catch (Exception ex)
             {

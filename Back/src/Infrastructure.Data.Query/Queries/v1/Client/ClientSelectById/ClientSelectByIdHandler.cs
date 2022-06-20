@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dto.v1;
 using Domain.Entities.v1;
-using Infrastructure.Data.Command.Interfaces.v1.Client;
+using Infrastructure.Data.Query.Interfaces.v1;
 using Infrastructure.Data.Repository.Infrastructure.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,35 +14,35 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Command.Context.Command.v1.Clients
+namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
-    public class ClientHandler : IClient, IRequestHandler<ClientRequest, ClientResponse>
+    public class ClientSelectByIdHandler : IClientSelectById, IRequestHandler<ClientSelectByIdRequest, ClientSelectByIdResponse>
     {
         private readonly string _connectionString;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private ClientRepository _clientRepository;
 
-        public ClientHandler(IConfiguration configuration, IMapper mapper)
+        public ClientSelectByIdHandler(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
             _mapper = mapper;
             _connectionString = configuration.GetConnectionString("BankAccount");
             _clientRepository = new ClientRepository(_connectionString);
         }
-        public ClientHandler()
+        public ClientSelectByIdHandler()
         { }
 
-        public async Task<ClientResponse> Handle(ClientRequest request, CancellationToken cancellationToken)
+        public async Task<ClientSelectByIdResponse> Handle(ClientSelectByIdRequest request, CancellationToken cancellationToken)
         {
             var result = await GetClientByIdAsync(request.Id);
             return result;
         }
 
-        public async Task<ClientResponse> GetClientByIdAsync(int client)
+        public async Task<ClientSelectByIdResponse> GetClientByIdAsync(int client)
         {
             var result = await _clientRepository.GetClientByIdAsync(client);
-            return _mapper.Map<ClientResponse>(result);
+            return _mapper.Map<ClientSelectByIdResponse>(result);
         }
 
         

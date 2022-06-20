@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Infrastructure.Data.Context\Infrastructure.Data.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Context\Command\v1\Clients\" />
+    <Folder Include="Context\Interfaces\v1\Client\" />
+  </ItemGroup>
+
 </Project>

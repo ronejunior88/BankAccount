@@ -6,7 +6,6 @@ namespace Infrastructure.Data.Command.Context.Interfaces.v1.Bank
 {
     public interface IBankAccount
     {
-        Task InsertBankAccountAsync(BankAccount bankAccount);
         Task<BankAccountDto> GetBankAccountSelectByIdAsync(int bankAccount);
         Task UpdateBankAccountBalanceByTransferAsync(int bankAccount, decimal balance);
     }

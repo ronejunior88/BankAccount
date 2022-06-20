@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.Data.Command.Context.Command.v1.Clients
+namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
-    public class ClientRequest: IRequest<ClientResponse>
+    public class ClientSelectByIdRequest: IRequest<ClientSelectByIdResponse>
     {
-        public ClientRequest(int id)
+        public ClientSelectByIdRequest(int id)
         {
             Id = id;
         }
