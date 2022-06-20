@@ -13,6 +13,6 @@ namespace Infrastructure.Data.Repository.Interfaces.v1
         Task<Transfer> GetTransferByIdAsync(int idTransfer);
         Task<IEnumerable<TransferBankAccountIdClientDto>> GetTransferByClientIdAsync(int idClient);
         Task<IEnumerable<TransferBankAccountAllDto>> GetTransferAllAsync();
-        Task insertTransferAsync(Transfer transfer);
+        Task<Transfer> insertTransferAsync(Transfer transfer);
     }
 }

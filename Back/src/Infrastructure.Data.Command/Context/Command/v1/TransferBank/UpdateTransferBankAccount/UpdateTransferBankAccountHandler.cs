@@ -1,59 +1,50 @@
-﻿ using AutoMapper;
+﻿using AutoMapper;
 using Domain.Dto.v1;
 using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Command.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Command.Context.Rabbit.v1;
 using Infrastructure.Data.Repository.Infrastructure.v1;
-using Microsoft.AspNetCore.Mvc;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
+namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTransferBankAccount
 {
-    public class TransferBankAccountCommand : ITransferBankAccount
+    public class UpdateTransferBankAccountHandler : IUpdateTransferBankAccount, IRequestHandler<UpdateTransferBankAccountRequest, UpdateTransferBankAccountResponse>
     {
         private readonly string _connectionString;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private TransferRepository _transferRepository;
         private BankAccountRepository _bankAccountRepository;
-        public TransferBankAccountCommand(IConfiguration configuration)
+
+        public UpdateTransferBankAccountHandler(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
+            _mapper = mapper;
             _connectionString = configuration.GetConnectionString("BankAccount");
             _transferRepository = new TransferRepository(_connectionString);
             _bankAccountRepository = new BankAccountRepository(_connectionString);
         }
 
-        public TransferBankAccountCommand()
-        { }        
-        public async Task InsertTransferBankAccountAsync(Transfer transfer)
+        public async Task<UpdateTransferBankAccountResponse> Handle(UpdateTransferBankAccountRequest request, CancellationToken cancellationToken)
         {
-            TransferQueues queues = new TransferQueues();
-            var message = JsonConvert.SerializeObject(transfer);
-            queues.Send(_configuration, message);
+            var response = await UpdateTransferBankAccountAsync();
+            return response;
         }
 
         public decimal transferWithdraw(Transfer transfer, BankAccountDto bankAccount)
         {
-            if (bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0)
-            {
-                return bankAccount.Balance - transfer.ValueTransfer;
-            }
-            return 0;
-        }
-
-        public void insertTransfer(Transfer transfer)
-        {
-            _transferRepository.insertTransferAsync(transfer);
-        }
-
-        public async Task UpdateTransferBankAccountAsync()
+            return bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0
+                ? bankAccount.Balance - transfer.ValueTransfer
+                : 0;
+        }       
+        public async Task<UpdateTransferBankAccountResponse> UpdateTransferBankAccountAsync()
         {
             var read = new TransferQueues();
             var listTransfer = read.Read(_configuration);
@@ -61,10 +52,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
             foreach (var item in listTransfer)
             {
                 var transfer = JsonConvert.DeserializeObject<Transfer>(item);
-                                                 
-
                 var bankAccount = await _bankAccountRepository.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
-
                 try
                 {
                     if (transfer.ValueTransfer > 0)
@@ -83,10 +71,8 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                             default:
                                 break;
                         }
-
                         await _bankAccountRepository.UpdateBankAccountBalanceByTransferAsync(transfer.IdBankAccount, bankAccount.Balance);
-                        await _transferRepository.insertTransferAsync(transfer);
-                        
+                        var result = await _transferRepository.insertTransferAsync(transfer);
                     }
                 }
                 catch (Exception ex)
@@ -94,6 +80,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
                     throw new Exception("Erro: ", ex);
                 }
             }
-        }       
+            return null;
+        }      
     }
 }

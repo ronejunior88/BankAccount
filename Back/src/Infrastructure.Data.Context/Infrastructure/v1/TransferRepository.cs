@@ -78,7 +78,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
             }
         }
         
-        public async Task insertTransferAsync(Transfer transfer)
+        public async Task<Transfer> insertTransferAsync(Transfer transfer)
         {
             using var connection = new SqlConnection(_connectionString);
             var sql = "[dbo].[Insert_Transfer]";
@@ -86,7 +86,8 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 
             try
             {
-                await connection.QueryAsync<Transfer>(sql, parameters, commandType: CommandType.StoredProcedure);
+                var response = await connection.QueryAsync<Transfer>(sql, parameters, commandType: CommandType.StoredProcedure);
+                return response.FirstOrDefault();
             }
             catch (Exception ex)
             {

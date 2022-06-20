@@ -5,6 +5,8 @@ using Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount;
 using Infrastructure.Data.Command.Context.Command.v1.Persons;
 using Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person;
 using Infrastructure.Data.Command.Context.Command.v1.TransferBank;
+using Infrastructure.Data.Command.Context.Command.v1.TransferBank.TransferBankAccount;
+using Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTransferBankAccount;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Query.Queries.v1.BankAccount.GetBankAccountSelectById;
 using Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById;
@@ -48,13 +50,16 @@ namespace Api
                 cfg.CreateMap<Transfer, GetTransferByIdResponse>().ReverseMap();
                 cfg.CreateMap<TransferBankAccountIdClientDto, GetTransferByClientIdResponse>().ReverseMap();
                 cfg.CreateMap<GetTransferAllResponse, TransferBankAccountAllDto>().ReverseMap();
+                cfg.CreateMap<Transfer, TransferBankAccountRequest>().ReverseMap();
+                cfg.CreateMap<Transfer, TransferBankAccountResponse>().ReverseMap();
+                cfg.CreateMap<Transfer, UpdateTransferBankAccountResponse>().ReverseMap();
+                cfg.CreateMap<Transfer, UpdateTransferBankAccountRequest>().ReverseMap();
             });
             IMapper mapper = config.CreateMapper();
 
             
 
             services.AddSingleton(mapper);    
-            services.AddScoped<ITransferBankAccount, TransferBankAccountCommand>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddControllers();
@@ -68,6 +73,8 @@ namespace Api
             services.AddMediatR(typeof(GetTransferByIdHandler).Assembly);
             services.AddMediatR(typeof(GetTransferByClientIdHandler).Assembly);
             services.AddMediatR(typeof(GetTransferAllHandler).Assembly);
+            services.AddMediatR(typeof(UpdateTransferBankAccountHandler).Assembly);
+            services.AddMediatR(typeof(TransferBankAccountHandler).Assembly);
 
             services.AddCors(options =>
             {

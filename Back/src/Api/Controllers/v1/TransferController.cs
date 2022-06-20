@@ -1,4 +1,6 @@
 ﻿using Domain.Entities.v1;
+using Infrastructure.Data.Command.Context.Command.v1.TransferBank.TransferBankAccount;
+using Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTransferBankAccount;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
@@ -15,20 +17,14 @@ namespace Api.Controllers.v1
     [Route("api/transferAccounts")]
     [ApiController]
     public class TransferController : Controller
-    {
-        private readonly ITransferBankAccount _transferBankAccount;
-        //private readonly IBankAccount _bankAccount;
+    {      
         private readonly IConfiguration _configuration;
         private readonly IMediator _mediator;
 
         public TransferController(IConfiguration configuration,
-                                  ITransferBankAccount ITransferBankAccount,
-                                  //IBankAccount bankAccount,
                                   IMediator mediator)
         {
             _configuration = configuration;
-            _transferBankAccount = ITransferBankAccount;
-            //_bankAccount = bankAccount;
             _mediator = mediator;
         }
 
@@ -61,28 +57,18 @@ namespace Api.Controllers.v1
             return Ok(response);
         }
 
-        //[HttpPost("/Transfers/bankAccount")]
-        //public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
-        //{
-        //    var bankAccount = await _bankAccount.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
-
-        //    if (bankAccount != null && bankAccount.Id > 0)
-        //    {
-        //        await _transferBankAccount.InsertTransferBankAccountAsync(transfer);
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return NotFound("Account Bank not found");
-        //    }
-
-        //}
+        [HttpPost("/Transfers/bankAccount")]
+        public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
+        {
+            await _mediator.Send(new TransferBankAccountRequest(transfer));
+            return Ok("Menssagem Enviada com Sucesso");         
+        }
 
 
-        //[HttpPut("/Transfers/insert")]
-        //public void InsertTransfer() 
-        //{
-        //     _transferBankAccount.UpdateTransferBankAccountAsync();
-        //}
+        [HttpPut("/Transfers/insert")]
+        public void InsertTransfer()
+        {
+            _mediator.Send(new UpdateTransferBankAccountRequest());
+        }
     }
 }
