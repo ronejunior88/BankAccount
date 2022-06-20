@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Command.Context.Command.v1.Bank
+namespace Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount
 {
     public class InsertBankAccountHandler : IInsertBankAccount, IRequestHandler<InsertBankAccountRequest, InsertBankAccountResponse>
     {

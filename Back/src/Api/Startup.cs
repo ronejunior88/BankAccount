@@ -1,13 +1,16 @@
 using AutoMapper;
 using Domain.Dto.v1;
 using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Command.v1.Bank;
+using Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount;
 using Infrastructure.Data.Command.Context.Command.v1.Persons;
+using Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person;
 using Infrastructure.Data.Command.Context.Command.v1.TransferBank;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Query.Queries.v1.BankAccount.GetBankAccountSelectById;
 using Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;
 using Infrastructure.Data.Repository.Infrastructure.v1;
 using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
@@ -36,11 +39,15 @@ namespace Api
 
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Transfer, TransferDto>();
-                cfg.CreateMap<Person, Insert_PersonResponse>();
-                cfg.CreateMap<ClientPersonDto, ClientSelectByIdResponse>();
-                cfg.CreateMap<BankAccountDto, GetBankAccountSelectByIdResponse>();
-                cfg.CreateMap<BankAccount, InsertBankAccountRequest>();
+                cfg.CreateMap<Transfer, TransferDto>().ReverseMap();
+                cfg.CreateMap<Person, Insert_PersonResponse>().ReverseMap();
+                cfg.CreateMap<ClientPersonDto, ClientSelectByIdResponse>().ReverseMap();
+                cfg.CreateMap<BankAccountDto, GetBankAccountSelectByIdResponse>().ReverseMap();
+                cfg.CreateMap<BankAccount, InsertBankAccountRequest>().ReverseMap();
+                cfg.CreateMap<BankAccount, InsertBankAccountResponse>().ReverseMap();
+                cfg.CreateMap<Transfer, GetTransferByIdResponse>().ReverseMap();
+                cfg.CreateMap<TransferBankAccountIdClientDto, GetTransferByClientIdResponse>().ReverseMap();
+                cfg.CreateMap<GetTransferAllResponse, TransferBankAccountAllDto>().ReverseMap();
             });
             IMapper mapper = config.CreateMapper();
 
@@ -58,6 +65,9 @@ namespace Api
             services.AddMediatR(typeof(ClientSelectByIdHandler).Assembly);
             services.AddMediatR(typeof(GetBankAccountSelectByIdHandler).Assembly);
             services.AddMediatR(typeof(InsertBankAccountHandler).Assembly);
+            services.AddMediatR(typeof(GetTransferByIdHandler).Assembly);
+            services.AddMediatR(typeof(GetTransferByClientIdHandler).Assembly);
+            services.AddMediatR(typeof(GetTransferAllHandler).Assembly);
 
             services.AddCors(options =>
             {

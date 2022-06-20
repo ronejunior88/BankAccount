@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\v1\Transfer\" />
     <Folder Include="Queries\v1\Person\" />
   </ItemGroup>
 

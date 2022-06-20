@@ -31,23 +31,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank
         }
 
         public TransferBankAccountCommand()
-        { }
-
-        public async Task<JsonResult> GetTransferByIdAsync(int idTransfer)
-        {
-            return await _transferRepository.GetTransferByIdAsync(idTransfer);
-        }
-
-        public async Task<IEnumerable<TransferBankAccountIdClientDto>> GetTransferByClientIdAsync(int idClient)
-        {
-            return await _transferRepository.GetTransferByClientIdAsync(idClient);
-        }
-
-        public async Task<IEnumerable<TransferBankAccountAllDto>> GetTransferAllAsync()
-        {
-            return await _transferRepository.GetTransferAllAsync();
-        }
-
+        { }        
         public async Task InsertTransferBankAccountAsync(Transfer transfer)
         {
             TransferQueues queues = new TransferQueues();

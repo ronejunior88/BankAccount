@@ -1,8 +1,4 @@
-﻿using Infrastructure.Data.Command.Context.Command.v1.Persons;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Interfaces.v1.Persons

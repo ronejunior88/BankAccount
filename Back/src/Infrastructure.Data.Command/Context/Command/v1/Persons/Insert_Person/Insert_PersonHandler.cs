@@ -10,7 +10,7 @@ using Infrastructure.Data.Repository.Infrastructure.v1;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Data.Command.Context.Command.v1.Persons
+namespace Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person
 {
     public class Insert_PersonHandler : IInsert_Person, IRequestHandler<Insert_PersonRequest, Insert_PersonResponse>
     {

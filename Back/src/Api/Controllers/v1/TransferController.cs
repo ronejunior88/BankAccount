@@ -1,6 +1,10 @@
 ﻿using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,16 +17,19 @@ namespace Api.Controllers.v1
     public class TransferController : Controller
     {
         private readonly ITransferBankAccount _transferBankAccount;
-        private readonly IBankAccount _bankAccount;
+        //private readonly IBankAccount _bankAccount;
         private readonly IConfiguration _configuration;
+        private readonly IMediator _mediator;
 
         public TransferController(IConfiguration configuration,
                                   ITransferBankAccount ITransferBankAccount,
-                                  IBankAccount bankAccount)
+                                  //IBankAccount bankAccount,
+                                  IMediator mediator)
         {
             _configuration = configuration;
             _transferBankAccount = ITransferBankAccount;
-            _bankAccount = bankAccount;
+            //_bankAccount = bankAccount;
+            _mediator = mediator;
         }
 
         [HttpGet("/Transfers/{id}")]
@@ -30,8 +37,8 @@ namespace Api.Controllers.v1
         {
             try
             {
-                var response = await _transferBankAccount.GetTransferByIdAsync(id);
-                  return Ok(response.Value);               
+                var response = await _mediator.Send(new GetTransferByIdRequest(id));
+                return Ok(response);               
             }
             catch (Exception ex)
             {
@@ -43,39 +50,39 @@ namespace Api.Controllers.v1
         [HttpGet("/Transfers/{id}/client")]
         public async Task<IActionResult> GetTransferByClientId(int id)
         {
-            var response = await _transferBankAccount.GetTransferByClientIdAsync(id);
-            return Ok(new JsonResult(response).Value);
+            var response = await _mediator.Send(new GetTransferByClientIdRequest(id));
+            return Ok(response);
         }
 
         [HttpGet("/Transfers/all")]
         public async Task<IActionResult> GetTransferAll()
         {
-            var response = await _transferBankAccount.GetTransferAllAsync();
-            return Ok(new JsonResult(response).Value);
+            var response = await _mediator.Send(new GetTransferAllRequest());
+            return Ok(response);
         }
 
-        [HttpPost("/Transfers/bankAccount")]
-        public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
-        {
-            var bankAccount = await _bankAccount.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
+        //[HttpPost("/Transfers/bankAccount")]
+        //public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
+        //{
+        //    var bankAccount = await _bankAccount.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
 
-            if (bankAccount != null && bankAccount.Id > 0) 
-            {
-                  await _transferBankAccount.InsertTransferBankAccountAsync(transfer);         
-                   return Ok();        
-            }
-            else
-            {
-                return NotFound("Account Bank not found");
-            }
-            
-        }
+        //    if (bankAccount != null && bankAccount.Id > 0)
+        //    {
+        //        await _transferBankAccount.InsertTransferBankAccountAsync(transfer);
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return NotFound("Account Bank not found");
+        //    }
 
-       
-        [HttpPut("/Transfers/insert")]
-        public void InsertTransfer() 
-        {
-             _transferBankAccount.UpdateTransferBankAccountAsync();
-        }
+        //}
+
+
+        //[HttpPut("/Transfers/insert")]
+        //public void InsertTransfer() 
+        //{
+        //     _transferBankAccount.UpdateTransferBankAccountAsync();
+        //}
     }
 }

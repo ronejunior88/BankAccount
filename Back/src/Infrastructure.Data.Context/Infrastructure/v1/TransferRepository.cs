@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         }
         public TransferRepository()
         { }
-        public async Task<JsonResult> GetTransferByIdAsync(int idTransfer)
+        public async Task<Transfer> GetTransferByIdAsync(int idTransfer)
         {
             using var connection = new SqlConnection(_connectionString);
 
@@ -30,12 +31,12 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 
             try
             {
-                var response = await connection.QueryAsync(sql, parameters, commandType: CommandType.StoredProcedure);
-                return new JsonResult(response);
+                var response = await connection.QueryAsync<Transfer>(sql, parameters, commandType: CommandType.StoredProcedure);
+                return response.FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new NotImplementedException();
+                throw new Exception("Erro:", ex);
             }
             
         }

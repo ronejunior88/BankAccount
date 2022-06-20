@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
+﻿using Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount;
 using Infrastructure.Data.Query.Queries.v1.BankAccount.GetBankAccountSelectById;
-using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,12 +21,12 @@ namespace Api.Controllers.v1
             _mediator = mediator;
         }
 
-        //[HttpPost("/bankAccounts")]
-        //public async Task<IActionResult> BankAccount([FromBody]BankAccount value)
-        //{
-        //    await _bankAccount.InsertBankAccountAsync(value);
-        //    return Ok();
-        //}
+        [HttpPost("/bankAccounts")]
+        public async Task<IActionResult> BankAccount([FromBody]InsertBankAccountRequest value)
+        {
+            await _mediator.Send(value);
+            return Ok("Conta cadastrada com sucesso.");
+        }
 
         [HttpGet("/bankAccounts/{id}")]
         public async Task<IActionResult> GetBankAccount(int id)

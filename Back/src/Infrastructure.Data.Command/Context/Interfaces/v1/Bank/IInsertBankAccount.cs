@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Command.v1.Bank;
+using Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount;
 using System;
 using System.Collections.Generic;
 using System.Text;
