@@ -1,18 +1,11 @@
-﻿ using AutoMapper;
-using Domain.Dto.v1;
+﻿using AutoMapper;
 using Domain.Entities.v1;
-using Infrastructure.Data.Command.Context.Command.v1.Bank;
 using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Command.Context.Rabbit.v1;
-using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,18 +13,14 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.TransferBa
 {
     public class TransferBankAccountHandler : ITransferBankAccount, IRequestHandler<TransferBankAccountRequest, TransferBankAccountResponse>
     {
-        private readonly string _connectionString;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private TransferRepository _transferRepository;
-        private BankAccountRepository _bankAccountRepository;
-        public TransferBankAccountHandler(IConfiguration configuration, IMapper mapper)
+        private IBankAccountRepository _bankAccountRepository;
+        public TransferBankAccountHandler(IConfiguration configuration, IMapper mapper, IBankAccountRepository bankAccountRepository)
         {
             _configuration = configuration;
             _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _transferRepository = new TransferRepository(_connectionString);
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
+            _bankAccountRepository = bankAccountRepository;
         }
 
         public TransferBankAccountHandler()

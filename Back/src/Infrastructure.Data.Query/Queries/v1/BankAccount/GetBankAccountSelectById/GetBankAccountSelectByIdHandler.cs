@@ -2,6 +2,7 @@
 using Domain.Dto.v1;
 using Infrastructure.Data.Query.Interfaces.v1;
 using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,17 +15,14 @@ namespace Infrastructure.Data.Query.Queries.v1.BankAccount.GetBankAccountSelectB
 {
     public class GetBankAccountSelectByIdHandler : IGetBankAccountSelectById, IRequestHandler<GetBankAccountSelectByIdRequest,GetBankAccountSelectByIdResponse>
     {
-        private readonly string _connectionString;
-        private BankAccountRepository _bankAccountRepository;
-        private readonly IConfiguration _configuration;
+        private IBankAccountRepository _bankAccountRepository;
         private readonly IMapper _mapper;
-        public GetBankAccountSelectByIdHandler(IConfiguration configuration, IMapper mapper)
+        public GetBankAccountSelectByIdHandler(IMapper mapper, IBankAccountRepository bankAccountRepository)
         {
-            _configuration = configuration;
             _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
+            _bankAccountRepository = bankAccountRepository;
         }
+
         public async Task<GetBankAccountSelectByIdResponse> Handle(GetBankAccountSelectByIdRequest request, CancellationToken cancellationToken)
         {
             var result = await GetBankAccountSelectByIdAsync(request.Id);

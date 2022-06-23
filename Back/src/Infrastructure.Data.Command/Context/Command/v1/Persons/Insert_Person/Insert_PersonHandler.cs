@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Interfaces.v1.Persons;
-using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
-using Microsoft.Extensions.Configuration;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person
 {
     public class Insert_PersonHandler : IInsert_Person, IRequestHandler<Insert_PersonRequest, Insert_PersonResponse>
     {
-        private readonly string _connectionString;
-        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private PersonRepository _person;
+        private IPersonRepository _person;
 
-        public Insert_PersonHandler(IConfiguration configuration, IMapper mapper)
-        {
-            _configuration = configuration;
+        public Insert_PersonHandler(IMapper mapper, IPersonRepository person)
+        {   
             _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _person = new PersonRepository(_connectionString);
+            _person = person;
         }
         public Insert_PersonHandler()
         { }

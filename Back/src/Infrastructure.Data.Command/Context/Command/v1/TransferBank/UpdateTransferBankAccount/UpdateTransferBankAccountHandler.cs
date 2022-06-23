@@ -17,7 +17,6 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
 {
     public class UpdateTransferBankAccountHandler : IUpdateTransferBankAccount, IRequestHandler<UpdateTransferBankAccountRequest, UpdateTransferBankAccountResponse>
     {
-        private readonly string _connectionString;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private TransferRepository _transferRepository;
@@ -27,9 +26,8 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
         {
             _configuration = configuration;
             _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _transferRepository = new TransferRepository(_connectionString);
-            _bankAccountRepository = new BankAccountRepository(_connectionString);
+            _transferRepository = new TransferRepository();
+            _bankAccountRepository = new BankAccountRepository();
         }
 
         public async Task<UpdateTransferBankAccountResponse> Handle(UpdateTransferBankAccountRequest request, CancellationToken cancellationToken)

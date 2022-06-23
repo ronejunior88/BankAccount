@@ -3,6 +3,7 @@ using Domain.Dto.v1;
 using Domain.Entities.v1;
 using Infrastructure.Data.Repository.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,16 +16,16 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 {
     public class TransferRepository : ITransferRepository
     {
-        private readonly string _connectionString;
-        public TransferRepository(string connectionString)
+        private readonly IConfiguration _configuration;
+        public TransferRepository(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _configuration = configuration;
         }
         public TransferRepository()
         { }
         public async Task<Transfer> GetTransferByIdAsync(int idTransfer)
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
 
             var sql = "[dbo].[Transfer_SelectById]";
             var parameters = new { Id = idTransfer };
@@ -43,7 +44,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 
         public async Task<IEnumerable<TransferBankAccountIdClientDto>> GetTransferByClientIdAsync(int idClient)
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
 
             var sql = "[dbo].[TransferClient_SelectById]";
             var parameters = new { Id = idClient };
@@ -63,7 +64,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 
         public async Task<IEnumerable<TransferBankAccountAllDto>> GetTransferAllAsync()
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
             
             var sql = "[dbo].[TransferAll_Select]";
 
@@ -80,7 +81,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         
         public async Task<Transfer> insertTransferAsync(Transfer transfer)
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
             var sql = "[dbo].[Insert_Transfer]";
             var parameters = new { idBankAccount = transfer.IdBankAccount, valueTransfer = transfer.ValueTransfer ,TypeTransfer = transfer.TypeTransFer };
 

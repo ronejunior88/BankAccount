@@ -3,6 +3,7 @@ using Domain.Dto.v1;
 using Domain.Entities.v1;
 using Infrastructure.Data.Repository.Interfaces.v1;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,17 +16,17 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly string _connectionString;
-        public ClientRepository(string connectionString)
+        private readonly IConfiguration _configuration;
+        public ClientRepository(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _configuration = configuration;
         }
         public ClientRepository()
         { }
 
         public async Task<ClientPersonDto> GetClientByIdAsync(int client)
         {
-            using var connection = new SqlConnection(_connectionString);
+            using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
             var sql = "[dbo].[Client_SelectById]";
             var parameters = new { Id = client };
 

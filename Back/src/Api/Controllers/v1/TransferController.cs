@@ -66,9 +66,10 @@ namespace Api.Controllers.v1
 
 
         [HttpPut("/Transfers/insert")]
-        public void InsertTransfer()
+        public async Task<ActionResult> InsertTransfer()
         {
-            _mediator.Send(new UpdateTransferBankAccountRequest());
+            await _mediator.Send(new UpdateTransferBankAccountRequest());
+            return Ok("Mensagens lidas com sucesso.");
         }
     }
 }

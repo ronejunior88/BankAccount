@@ -1,30 +1,21 @@
 ﻿using AutoMapper;
 using Infrastructure.Data.Query.Interfaces.v1;
-using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById
 {
     public class GetTransferByIdHandler : IGetTransferById, IRequestHandler<GetTransferByIdRequest,GetTransferByIdResponse>
-    {
-        private readonly string _connectionString;
-        private TransferRepository _transferRepository;
-        private readonly IConfiguration _configuration;
+    {     
+        private ITransferRepository _transferRepository;       
         private readonly IMapper _mapper;
 
-        public GetTransferByIdHandler(IConfiguration configuration, IMapper mapper)
+        public GetTransferByIdHandler(IMapper mapper, ITransferRepository transferRepository)
         {
-            _configuration = configuration;
             _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _transferRepository = new TransferRepository(_connectionString);
+            _transferRepository = transferRepository;
         }
 
         public async Task<GetTransferByIdResponse> Handle(GetTransferByIdRequest request, CancellationToken cancellationToken)

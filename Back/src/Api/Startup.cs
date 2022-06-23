@@ -62,10 +62,13 @@ namespace Api
             services.AddSingleton(mapper);    
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<ITransferRepository, TransferRepository>();
             services.AddControllers();
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(IConfiguration));
             services.AddMediatR(typeof(Insert_PersonHandler).Assembly);
             services.AddMediatR(typeof(ClientSelectByIdHandler).Assembly);
             services.AddMediatR(typeof(GetBankAccountSelectByIdHandler).Assembly);

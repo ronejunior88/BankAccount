@@ -1,16 +1,7 @@
 ﻿using AutoMapper;
-using Domain.Dto.v1;
-using Domain.Entities.v1;
 using Infrastructure.Data.Query.Interfaces.v1;
-using Infrastructure.Data.Repository.Infrastructure.v1;
+using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,17 +9,13 @@ namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
     public class ClientSelectByIdHandler : IClientSelectById, IRequestHandler<ClientSelectByIdRequest, ClientSelectByIdResponse>
     {
-        private readonly string _connectionString;
-        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private ClientRepository _clientRepository;
+        private IClientRepository _clientRepository;
 
-        public ClientSelectByIdHandler(IConfiguration configuration, IMapper mapper)
+        public ClientSelectByIdHandler(IClientRepository clientRepository, IMapper mapper)
         {
-            _configuration = configuration;
-            _mapper = mapper;
-            _connectionString = configuration.GetConnectionString("BankAccount");
-            _clientRepository = new ClientRepository(_connectionString);
+            _clientRepository = clientRepository;
+            _mapper = mapper;         
         }
         public ClientSelectByIdHandler()
         { }
