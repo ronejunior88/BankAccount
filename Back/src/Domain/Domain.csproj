@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\v1\" />
-    <Folder Include="Enums\v1\" />
     <Folder Include="Interfaces\v1\" />
     <Folder Include="Mappings\v1\" />
     <Folder Include="Queries\v1\" />

@@ -22,8 +22,6 @@ namespace Domain.Entities.v1
         public int Id { get; set; }
         public int IdBankAccount { get; set; }
         public decimal ValueTransfer { get; set; }
-        public string TypeTransFer { get; set; }
-        
-                       
+        public string TypeTransFer { get;  set; }
     }
 }

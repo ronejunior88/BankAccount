@@ -21,7 +21,6 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
         private readonly IMapper _mapper;
         private TransferRepository _transferRepository;
         private BankAccountRepository _bankAccountRepository;
-
         public UpdateTransferBankAccountHandler(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
@@ -51,33 +50,24 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
             {
                 var transfer = JsonConvert.DeserializeObject<Transfer>(item);
                 var bankAccount = await _bankAccountRepository.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
-                try
-                {
+        
                     if (transfer.ValueTransfer > 0)
                     {
-                        switch (transfer.TypeTransFer)
-                        {
-                            case "Deposito":
-                                bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
-                                break;
-                            case "Transferencia":
-                                bankAccount.Balance = transferWithdraw(transfer, bankAccount);
-                                break;
-                            case "Saque":
-                                bankAccount.Balance = transferWithdraw(transfer, bankAccount);
-                                break;
-                            default:
-                                break;
-                        }
+                    _ = transfer.TypeTransFer == "Transferencia" || transfer.TypeTransFer == "Saque" ?
+                    bankAccount.Balance = transferWithdraw(transfer, bankAccount) : bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
+
+                    try
+                    {
                         await _bankAccountRepository.UpdateBankAccountBalanceByTransferAsync(transfer.IdBankAccount, bankAccount.Balance);
                         var result = await _transferRepository.insertTransferAsync(transfer);
                     }
+                    catch (Exception ex)
+                    {
+
+                        throw new Exception("Erro com com atualização / inserção da transferencia!", ex);
+                    }                  
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro: ", ex);
-                }
-            }
+             }
             return null;
         }      
     }
