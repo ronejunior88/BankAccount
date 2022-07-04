@@ -17,6 +17,7 @@ BEGIN
 			,Bank.Name
 			,Transfer.TypeTransfer
 			,Transfer.ValueTransfer
+			,Transfer.Date
 	FROM    [dbo].[Client]
 	INNER JOIN [dbo].[BankAccount] ON BankAccount.IdClient = Client.Id
 	INNER JOIN [dbo].[Bank] ON Bank.Id = BankAccount.IdBank

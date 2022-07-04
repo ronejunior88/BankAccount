@@ -9,7 +9,8 @@ GO
 ALTER PROCEDURE [dbo].[Insert_Transfer]
 @IdBankAccount INT,		
 @ValueTransfer Decimal,
-@TypeTransfer Varchar(50)
+@TypeTransfer Varchar(50),
+@Date Date
 
 AS
 
@@ -18,11 +19,13 @@ BEGIN
 INSERT INTO [dbo].[Transfer]
             ([IdBankAccount],
 			 [ValueTransfer],
-			 [TypeTransfer]
+			 [TypeTransfer],
+			 [Date]
 			 )
 Values(@IdBankAccount,
        @ValueTransfer,
-	   @TypeTransfer
+	   @TypeTransfer,
+	   @Date
 	   )
 SELECT SCOPE_IDENTITY()
 END

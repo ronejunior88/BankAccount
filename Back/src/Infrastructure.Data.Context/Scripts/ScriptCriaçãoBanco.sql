@@ -73,6 +73,7 @@ BEGIN
 		IdBankAccount INT NOT NULL,
 		ValueTransfer DECIMAL NOT NULL,
 		TypeTransfer VARCHAR(50) NOT NULL,
+		Date DATE NOT NULL,
 		CONSTRAINT PK_Transfer PRIMARY KEY (Id),
 		CONSTRAINT FK_Transfer_BankAccount FOREIGN KEY (IdBankAccount)
         REFERENCES BankAccount (Id) ON DELETE CASCADE ON UPDATE CASCADE

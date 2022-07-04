@@ -6,6 +6,7 @@ using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +55,13 @@ namespace Api.Controllers.v1
         public async Task<IActionResult> GetTransferAll()
         {
             var response = await _mediator.Send(new GetTransferAllRequest());
+            return Ok(response);
+        }
+
+        [HttpGet("/transfers/{dateInicial}/{dateFinal}/Date")]
+        public async Task<IActionResult> GetTransfersByDate(DateTime dateInicial, DateTime dateFinal)
+        {
+            var response = await _mediator.Send(new GetTransferByDateRequest(dateInicial, dateFinal));
             return Ok(response);
         }
 
