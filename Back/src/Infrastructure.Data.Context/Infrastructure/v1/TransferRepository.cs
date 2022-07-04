@@ -83,7 +83,7 @@ namespace Infrastructure.Data.Repository.Infrastructure.v1
         {
             using var connection = new SqlConnection(_configuration.GetConnectionString("BankAccount"));
             var sql = "[dbo].[Insert_Transfer]";
-            var parameters = new { idBankAccount = transfer.IdBankAccount, valueTransfer = transfer.ValueTransfer ,TypeTransfer = transfer.TypeTransFer };
+            var parameters = new { idBankAccount = transfer.IdBankAccount, valueTransfer = transfer.ValueTransfer ,TypeTransfer = transfer.TypeTransFer, Date = DateTime.Now };
 
             try
             {
