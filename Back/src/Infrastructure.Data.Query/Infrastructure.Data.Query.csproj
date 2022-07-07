@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Queries\v1\Person\" />
-    <Folder Include="Queries\v1\Transfers\GetTransfersByDateByClientId\" />
   </ItemGroup>
 
   <ItemGroup>

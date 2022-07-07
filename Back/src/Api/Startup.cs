@@ -14,6 +14,7 @@ using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDateAndClientId;
 using Infrastructure.Data.Repository.Infrastructure.v1;
 using Infrastructure.Data.Repository.Interfaces.v1;
 using MediatR;
@@ -56,6 +57,7 @@ namespace Api
                 cfg.CreateMap<Transfer, UpdateTransferBankAccountResponse>().ReverseMap();
                 cfg.CreateMap<Transfer, UpdateTransferBankAccountRequest>().ReverseMap();
                 cfg.CreateMap<TransferBankAccountAllDto, GetTransferByDateResponse>().ReverseMap();
+                cfg.CreateMap<TransferBankAccountAllDto, GetTransfersByDateAndClientIdResponse>().ReverseMap();
             });
             IMapper mapper = config.CreateMapper();
 
@@ -81,6 +83,7 @@ namespace Api
             services.AddMediatR(typeof(UpdateTransferBankAccountHandler).Assembly);
             services.AddMediatR(typeof(TransferBankAccountHandler).Assembly);
             services.AddMediatR(typeof(GetTransferByDateHandler).Assembly);
+            services.AddMediatR(typeof(GetTransfersByDateAndClientIdHandler).Assembly);
 
             services.AddCors(options =>
             {

@@ -9,7 +9,8 @@ GO
 CREATE PROC [dbo].[TransferAll_Select]
 AS
 BEGIN
-	SELECT	 Client.Id AS Client_Id
+	SELECT	 Transfer.Id  AS Transfer
+	        ,Client.Id AS Client_Id
 			,Client.IdPerson AS Person_Id
 			,BankAccount.Id AS Account
 			,BankAccount.Balance 

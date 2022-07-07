@@ -7,6 +7,7 @@ using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate;
+using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDateAndClientId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -64,6 +65,13 @@ namespace Api.Controllers.v1
             var response = await _mediator.Send(new GetTransferByDateRequest(dateInicial, dateFinal));
             return Ok(response);
         }
+
+        [HttpGet("/transfers/{dateInicial}/{dateFinal}/{idClient}/Date")]
+        public async Task<IActionResult> GetTransfersByDateAndIdClient(DateTime dateInicial, DateTime dateFinal, int idClient)
+        {
+            var response = await _mediator.Send(new GetTransfersByDateAndClientIdRequest(dateInicial, dateFinal, idClient));
+            return Ok(response);
+        }        
 
         [HttpPost("/Transfers/bankAccount")]
         public async Task<IActionResult> InsertTransferBankAccount([FromBody]Transfer transfer)
