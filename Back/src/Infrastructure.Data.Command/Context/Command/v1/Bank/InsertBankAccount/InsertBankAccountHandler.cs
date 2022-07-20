@@ -28,6 +28,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount
         {      
             var response = await _bankAccountRepository.InsertBankAccountAsync(bankAccount);
             return _mapper.Map<InsertBankAccountResponse>(response);
+
         }
     }
 }
