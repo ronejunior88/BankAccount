@@ -29,6 +29,7 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person
         {
             var result = await _person.InsertPersonAsync(_mapper.Map<Person>(person));
             return _mapper.Map<Insert_PersonResponse>(result);
+
         }
     }
 }
