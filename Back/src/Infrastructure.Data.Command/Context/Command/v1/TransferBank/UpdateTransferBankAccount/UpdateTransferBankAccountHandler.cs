@@ -29,22 +29,18 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
             _transferRepository = transferBankAccount;
             _bankAccountRepository = bankAccountRepository;
         }
-
         public async Task<UpdateTransferBankAccountResponse> Handle(UpdateTransferBankAccountRequest request, CancellationToken cancellationToken)
         {
             var read = new TransferQueues();
             var listTransfer = read.Read(_configuration);
-
             foreach (var item in listTransfer)
             {
                 var transfer = JsonConvert.DeserializeObject<Transfer>(item);
                 var bankAccount = await _bankAccountRepository.GetBankAccountSelectByIdAsync(transfer.IdBankAccount);
-
                 if (transfer.ValueTransfer > 0)
                 {
                     _ = transfer.TypeTransFer == "Transferencia" || transfer.TypeTransFer == "Saque" ?
                     bankAccount.Balance = transferWithdraw(transfer, bankAccount) : bankAccount.Balance = bankAccount.Balance + transfer.ValueTransfer;
-
                     try
                     {
                         await _bankAccountRepository.UpdateBankAccountBalanceByTransferAsync(transfer.IdBankAccount, bankAccount.Balance);
@@ -59,16 +55,11 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTran
             }
             return null;
         }
-
         public decimal transferWithdraw(Transfer transfer, BankAccountDto bankAccount)
         {
             return bankAccount.Balance > 0 && bankAccount.Balance - transfer.ValueTransfer >= 0
                 ? bankAccount.Balance - transfer.ValueTransfer
                 : 0;
-        }       
-        //public async Task<UpdateTransferBankAccountResponse> UpdateTransferBankAccountAsync()
-        //{
-            
-        //}      
+        }    
     }
 }

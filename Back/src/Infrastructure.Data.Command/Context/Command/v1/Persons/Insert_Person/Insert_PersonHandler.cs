@@ -12,7 +12,6 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person
     {
         private readonly IMapper _mapper;
         private IPersonRepository _person;
-
         public Insert_PersonHandler(IMapper mapper, IPersonRepository person)
         {   
             _mapper = mapper;
@@ -24,12 +23,10 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Persons.Insert_Person
         {
            return await InsertPersonAsync(request);
         }
-
         public async Task<Insert_PersonResponse> InsertPersonAsync(Insert_PersonRequest person)
         {
             var result = await _person.InsertPersonAsync(_mapper.Map<Person>(person));
             return _mapper.Map<Insert_PersonResponse>(result);
-
         }
     }
 }

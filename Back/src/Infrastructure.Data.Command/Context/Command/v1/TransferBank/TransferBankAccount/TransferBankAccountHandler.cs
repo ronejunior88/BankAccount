@@ -22,10 +22,8 @@ namespace Infrastructure.Data.Command.Context.Command.v1.TransferBank.TransferBa
             _mapper = mapper;
             _bankAccountRepository = bankAccountRepository;
         }
-
         public TransferBankAccountHandler()
         { }
-
         public async Task<TransferBankAccountResponse> Handle(TransferBankAccountRequest request, CancellationToken cancellationToken)
         {
             var bankAccount = await _bankAccountRepository.GetBankAccountSelectByIdAsync(request.Transfer.IdBankAccount);

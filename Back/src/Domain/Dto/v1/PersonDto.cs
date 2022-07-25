@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Dto.v1
+﻿namespace Domain.Dto.v1
 {
     public class PersonDto
     {

@@ -1,5 +1,4 @@
 ﻿using Domain.Dto.v1;
-using Domain.Entities.v1;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Command.Context.Interfaces.v1.Bank

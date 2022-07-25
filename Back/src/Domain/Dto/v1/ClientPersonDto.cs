@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Dto.v1
+﻿namespace Domain.Dto.v1
 {
     public class ClientPersonDto
     {
         public ClientPersonDto()
         { }
-
         public ClientPersonDto(int id, int idPerson, string name, string lastName, string cpf, string cNPJ, string telephone, string adress)
         {
             Id = id;
@@ -20,7 +15,6 @@ namespace Domain.Dto.v1
             Telephone = telephone;
             Adress = adress;
         }
-
         public int Id { get; set; }
         public int IdPerson { get; set; }
         public string Name { get; set; }
@@ -29,6 +23,5 @@ namespace Domain.Dto.v1
         public string CNPJ { get; set; }
         public string Telephone { get; set; }
         public string Adress { get; set; }
-
     }
 }

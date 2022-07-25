@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Dto.v1
+﻿namespace Domain.Dto.v1
 {
     public class BankAccountDto
     {
         public BankAccountDto()
         { }
-
         public BankAccountDto(int id, int idBank, int idClient, decimal balance, string typeAccount)
         {
             Id = id;
@@ -17,7 +12,6 @@ namespace Domain.Dto.v1
             Balance = balance;
             TypeAccount = typeAccount;
         }
-
         public int Id { get; set; }
         public int IdBank { get; set; }
         public int IdClient { get; set; }

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDateAndClientId
 {
@@ -9,14 +8,12 @@ namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDateAndCl
     {
         public GetTransfersByDateAndClientIdRequest()
         { }
-
         public GetTransfersByDateAndClientIdRequest(DateTime dateInicial, DateTime dateFinal, int idClient)
         {
             DateInicial = dateInicial;
             DateFinal = dateFinal;
             IdClient = idClient;
         }
-
         public DateTime DateInicial { get; set; }
         public DateTime DateFinal { get; set; }
         public int IdClient { get; set; }

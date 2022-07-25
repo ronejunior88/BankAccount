@@ -6,7 +6,6 @@ namespace Domain.Entities.v1
     {
         public Transfer()
         {  }
-
         public Transfer(string typeTransfer, decimal valueTransfer, int idBankAccount, DateTime date)
         {
             IdBankAccount = idBankAccount;
@@ -14,7 +13,6 @@ namespace Domain.Entities.v1
             TypeTransFer = typeTransfer;
             Date = date;
         }
-
         public Transfer(int id, int idBankAccount, decimal valueTransfer, string typeTransfer, DateTime date)
         {
             Id = id;

@@ -23,7 +23,6 @@ namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate
         {
             return GetTransfersByDate(request.DateInicial, request.DateFinal);
         }
-
         public async Task<IEnumerable<GetTransferByDateResponse>> GetTransfersByDate(DateTime DateInicial, DateTime DateFinal)
         {
             try

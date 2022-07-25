@@ -1,8 +1,4 @@
-﻿using Domain.Entities.v1;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MediatR;
 
 namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
@@ -12,7 +8,6 @@ namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
         {
             Id = id;
         }
-
         public int Id { get; set; }
     }
 }
