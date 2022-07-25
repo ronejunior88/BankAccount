@@ -19,7 +19,6 @@ namespace Infrastructure.Data.Command.Context.Command.v1.Bank.InsertBankAccount
             _mapper = mapper;
             _bankAccountRepository = bankAccountRepository;
         }
-
         public async Task<InsertBankAccountResponse> Handle(InsertBankAccountRequest request, CancellationToken cancellationToken)
         {
             return await InsertBankAccountAsync(_mapper.Map<BankAccount>(request));

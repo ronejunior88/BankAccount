@@ -3,6 +3,5 @@
 namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate
 {
     public class GetTransferByDateResponse : TransferBankAccountAllDto
-    {
-    }
+    {   }
 }

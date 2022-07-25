@@ -5,11 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Mappings\**" />
+    <Compile Remove="Queries\**" />
+    <Compile Remove="Service\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Mappings\**" />
+    <EmbeddedResource Remove="Queries\**" />
+    <EmbeddedResource Remove="Service\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Mappings\**" />
+    <None Remove="Queries\**" />
+    <None Remove="Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Entities\v1\" />
-    <Folder Include="Interfaces\v1\" />
-    <Folder Include="Mappings\v1\" />
-    <Folder Include="Queries\v1\" />
-    <Folder Include="Service\v1\" />
   </ItemGroup>
 
 </Project>

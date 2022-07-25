@@ -1,9 +1,4 @@
-﻿using Domain.Entities.v1;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
+﻿namespace Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById
 {
     public class ClientSelectByIdResponse
     {

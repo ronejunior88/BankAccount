@@ -11,19 +11,16 @@ namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById
     {     
         private ITransferRepository _transferRepository;       
         private readonly IMapper _mapper;
-
         public GetTransferByIdHandler(IMapper mapper, ITransferRepository transferRepository)
         {
             _mapper = mapper;
             _transferRepository = transferRepository;
         }
-
         public async Task<GetTransferByIdResponse> Handle(GetTransferByIdRequest request, CancellationToken cancellationToken)
         {
             var result = await GetTransferByIdAsync(request.Id);
             return result;
         }
-
         public async Task<GetTransferByIdResponse> GetTransferByIdAsync(int idTransfer)
         {
             var result = await _transferRepository.GetTransferByIdAsync(idTransfer);

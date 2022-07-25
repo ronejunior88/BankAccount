@@ -1,8 +1,6 @@
 ﻿using Domain.Entities.v1;
 using Infrastructure.Data.Command.Context.Command.v1.TransferBank.TransferBankAccount;
 using Infrastructure.Data.Command.Context.Command.v1.TransferBank.UpdateTransferBankAccount;
-using Infrastructure.Data.Command.Context.Interfaces.v1.Bank;
-using Infrastructure.Data.Command.Context.Interfaces.v1.TransferBank;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferAll;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferByClientId;
 using Infrastructure.Data.Query.Queries.v1.Transfers.GetTransferById;

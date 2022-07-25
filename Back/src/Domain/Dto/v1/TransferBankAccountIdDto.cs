@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Dto.v1
 {
@@ -8,7 +6,6 @@ namespace Domain.Dto.v1
     {
         public TransferBankAccountIdDto()
         { }
-
         public TransferBankAccountIdDto(int idTransfer, int idBankAccount, decimal valueTransfer, string typeTransfer, DateTime date)
         {
             IdTransfer = idTransfer;

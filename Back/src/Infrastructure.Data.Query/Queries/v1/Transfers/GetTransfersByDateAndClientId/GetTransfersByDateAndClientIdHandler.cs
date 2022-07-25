@@ -5,7 +5,6 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,14 +19,13 @@ namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDateAndCl
             _mapper = mapper;
             _transferRepository = transferRepository;
         }
-
         public async Task<IEnumerable<GetTransfersByDateAndClientIdResponse>> Handle(GetTransfersByDateAndClientIdRequest request, CancellationToken cancellationToken)
         {
             try
             {
                 var response = await _transferRepository.GetTransferAllAsync();
                 return _mapper.Map<IEnumerable<GetTransfersByDateAndClientIdResponse>>(response.Where(res => (res.Date >= request.DateInicial &&
-                                                                                                res.Date <= request.DateFinal)
+                                                                                               res.Date <= request.DateFinal)
                                                                                                 && res.Client_Id == request.IdClient)
                                                                                                 .OrderBy(x => x.Date));
             }

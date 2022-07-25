@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Domain.Dto.v1
+﻿namespace Domain.Dto.v1
 {
     public class TransferDto
     {
         public TransferDto(){ }
-
         public TransferDto(int idbankAccount, decimal valueTransfer, string typeTransFer)
         {
             IdbankAccount = idbankAccount;

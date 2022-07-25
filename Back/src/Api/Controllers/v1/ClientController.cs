@@ -1,5 +1,4 @@
-﻿using Domain.Entities.v1;
-using Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById;
+﻿using Infrastructure.Data.Query.Queries.v1.Client.ClientSelectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

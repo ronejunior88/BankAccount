@@ -8,7 +8,6 @@ namespace Infrastructure.Data.Query.Queries.v1.Transfers.GetTransfersByDate
     {
         public GetTransferByDateRequest()
         {  }
-
         public GetTransferByDateRequest(DateTime dateInicial, DateTime dateFinal)
         {
             DateInicial = dateInicial;
